@@ -28,7 +28,7 @@ class _RecipesPage extends State<RecipesPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Receitas Populáres", style: TextStyle(fontSize: 20)),
+          Text("Receitas Populares", style: TextStyle(fontSize: 20)),
           Carousel(
             images: [
               Image.asset("assets/images/bife acebolado.jpg"),
@@ -40,10 +40,14 @@ class _RecipesPage extends State<RecipesPage> {
           ),
           SizedBox(height: 20),
           Text("Recomendados", style: TextStyle(fontSize: 20)),
-          _recipeCard("assets/images/bife acebolado.jpg", "Bife acebolado", "3/5 ingredientes"),
-          _recipeCard("assets/images/lasanha.jpg", "Lasanha de forno",  "Todos os ingredientes"),
-          _recipeCard("assets/images/macarronada.jpg", "Macarronada com ervilhas",  "2/4 ingredientes"),
-          _recipeCard("assets/images/pao de queijo.jpg", "Pão de queijo mineiro",  "3/4 ingredientes"),
+          _recipeCard("assets/images/bife acebolado.jpg", "Bife acebolado",
+              "3/5 ingredientes"),
+          _recipeCard("assets/images/lasanha.jpg", "Lasanha de forno",
+              "Todos os ingredientes"),
+          _recipeCard("assets/images/macarronada.jpg",
+              "Macarronada com ervilhas", "2/4 ingredientes"),
+          _recipeCard("assets/images/pao de queijo.jpg",
+              "Pão de queijo mineiro", "3/4 ingredientes"),
         ],
       ),
     );
@@ -59,12 +63,12 @@ class _RecipesPage extends State<RecipesPage> {
             title: Text(title),
             subtitle: Text(subtitle),
             trailing: IconButton(
-                icon: Icon(Icons.chevron_right),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => RecipeDetailsPage()),
-                  );
+              icon: Icon(Icons.chevron_right),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => RecipeDetailsPage()),
+                );
               },
             ),
             leading: Image.asset(image_path, width: 120, fit: BoxFit.cover)),

@@ -2,13 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:smartfridge/pages/add_items_fridge_page.dart';
 
-class Product {
-  String name;
-  int amount;
-  String? unit;
-
-  Product(this.name, this.amount, this.unit);
-}
+import '../models/product.dart';
 
 class MyFridgePage extends StatefulWidget {
   List<Product> products = [

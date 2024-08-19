@@ -13,10 +13,7 @@ class _RecipeDetailsPage extends State<RecipeDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme
-            .of(context)
-            .colorScheme
-            .surfaceContainerLow,
+        backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
         centerTitle: true,
         title: Text("Recipes"),
       ),
@@ -27,7 +24,4 @@ class _RecipeDetailsPage extends State<RecipeDetailsPage> {
   Widget _body(BuildContext context) {
     return SingleChildScrollView();
   }
-
-
-
 }

@@ -2,19 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../models/product.dart';
+
 class ShoppingListPage extends StatefulWidget {
   ShoppingListPage();
 
   @override
   State<ShoppingListPage> createState() => _ShoppingListPage();
-}
-
-class Product {
-  String name;
-  int amount;
-  String? unit;
-
-  Product(this.name, this.amount, this.unit);
 }
 
 final List<Product> products = [
@@ -32,9 +26,7 @@ final List<Product> products = [
 ];
 final List<String> unitOptions = ["Unidade(s)", "Kg", "g", "L", "ml"];
 
-
 class _ShoppingListPage extends State<ShoppingListPage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,8 +57,7 @@ class _ShoppingListPage extends State<ShoppingListPage> {
             ),
           );
         },
-      )
-      ,
+      ),
     );
   }
 }
@@ -102,11 +93,15 @@ void _showProductModal(BuildContext context, Product product) {
                           child: TextFormField(
                             initialValue: product.amount.toString(),
                             keyboardType: TextInputType.number,
-                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
                             onChanged: (value) {
-                              product.amount = int.tryParse(value) ?? product.amount;
+                              product.amount =
+                                  int.tryParse(value) ?? product.amount;
                             },
-                            decoration: InputDecoration(labelText: "Quantidade"),
+                            decoration:
+                                InputDecoration(labelText: "Quantidade"),
                           ),
                         ),
                         SizedBox(width: 16),
@@ -134,7 +129,6 @@ void _showProductModal(BuildContext context, Product product) {
                     SizedBox(height: 16),
                   ],
                 ),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -166,10 +160,11 @@ void _showConfirmationDialog(BuildContext context, Product product) {
     context: context,
     builder: (context) {
       return AlertDialog(
-        title: Center(child: Text("Item Comprado!"),),
-        content: Text(
-            "${product.amount} ${product.unit} ${product.name} ${product.amount > 1 ? 'foram' : 'foi'} movidos para o estoque."
+        title: Center(
+          child: Text("Item Comprado!"),
         ),
+        content: Text(
+            "${product.amount} ${product.unit} ${product.name} ${product.amount > 1 ? 'foram' : 'foi'} movidos para o estoque."),
         actionsAlignment: MainAxisAlignment.center,
         actions: [
           TextButton(
@@ -183,5 +178,3 @@ void _showConfirmationDialog(BuildContext context, Product product) {
     },
   );
 }
-
-

@@ -30,9 +30,9 @@ class _AddItemsFridgePageState extends State<AddItemsFridgePage> {
               Row(
                 children: [
                   Expanded(
-                      child:
-                          _buildTextField("Quantidade", "Insira a quantidade", digitsOnly: true)
-                  ),
+                      child: _buildTextField(
+                          "Quantidade", "Insira a quantidade",
+                          digitsOnly: true)),
                   SizedBox(width: 16),
                   Expanded(child: _buildDropdownField("Unidade(s)", items)),
                 ],
@@ -53,13 +53,15 @@ class _AddItemsFridgePageState extends State<AddItemsFridgePage> {
     );
   }
 
-  Widget _buildTextField(String label, String hintText, {bool digitsOnly = false}) {
+  Widget _buildTextField(String label, String hintText,
+      {bool digitsOnly = false}) {
     TextEditingController _textController = TextEditingController();
 
     return TextField(
       controller: _textController,
       keyboardType: TextInputType.number,
-      inputFormatters: digitsOnly ? [FilteringTextInputFormatter.digitsOnly] : null,
+      inputFormatters:
+          digitsOnly ? [FilteringTextInputFormatter.digitsOnly] : null,
       decoration: InputDecoration(
         labelText: label,
         hintText: hintText,
@@ -75,8 +77,6 @@ class _AddItemsFridgePageState extends State<AddItemsFridgePage> {
       ),
     );
   }
-
-
 
   Widget _buildDropdownField(String label, List<String> items) {
     return DropdownButtonFormField<String>(
