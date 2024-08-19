@@ -62,25 +62,32 @@ class _MyHomePageState extends State<MyFridgePage> {
                       elevation: 0,
                       margin: EdgeInsets.all(8),
                       child: Container(
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                color: Colors.white,
-                                width: 1.0,
-                              ),
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: Colors.white,
+                              width: 1.0,
                             ),
                           ),
-                          padding: EdgeInsets.all(16.0),
-                          child: Row(
-                            children: [
-                              Icon(Icons.fastfood),
-                              SizedBox(width: 16),
-                              Text(
-                                p.name,
-                                style: TextStyle(fontSize: 20),
-                              ),
-                            ],
-                          )),
+                        ),
+                        padding: EdgeInsets.all(16.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(Icons.fastfood),
+                                SizedBox(width: 16),
+                                Text(
+                                  p.name,
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              ],
+                            ),
+                            Text(p.amount.toString() + ' Kg'),
+                          ],
+                        ),
+                      ),
                     );
                   }).toList(),
                 ))
