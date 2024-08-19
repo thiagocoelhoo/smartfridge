@@ -60,6 +60,7 @@ class _HomePageState extends State<HomePage> {
           currentPageIndex = index;
         });
       },
+      selectedIndex: currentPageIndex,
       destinations: const <NavigationDestination>[
         NavigationDestination(
             icon: Icon(Icons.home_filled),
