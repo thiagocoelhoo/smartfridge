@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage> {
       destinations: const <NavigationDestination>[
         NavigationDestination(
             icon: Icon(Icons.home_filled),
-            label: "Home"
+            label: "Fridge"
         ),
         NavigationDestination(
             icon: Icon(Icons.library_books),

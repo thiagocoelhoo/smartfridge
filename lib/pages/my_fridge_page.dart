@@ -112,7 +112,7 @@ class _MyHomePageState extends State<MyFridgePage> {
 
   AppBar _appBar() {
     return AppBar(
-      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
       title: Center(child: Text("My fridge")),
     );
   }

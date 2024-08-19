@@ -13,7 +13,7 @@ class _RecipesPage extends State<RecipesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
         centerTitle: true,
         title: Text("Recipes"),
       ),

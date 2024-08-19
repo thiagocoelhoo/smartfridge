@@ -46,7 +46,7 @@ class _AddItemsFridgePageState extends State<AddItemsFridgePage> {
 
   AppBar _appBar(BuildContext context) {
     return AppBar(
-      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
       title: Center(child: Text("Add product")),
     );
   }
