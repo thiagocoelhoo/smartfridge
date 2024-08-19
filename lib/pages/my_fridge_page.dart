@@ -60,7 +60,7 @@ class _MyHomePageState extends State<MyFridgePage> {
                         decoration: BoxDecoration(
                           border: Border(
                             bottom: BorderSide(
-                              color: Colors.white,
+                              color: Colors.white12,
                               width: 1.0,
                             ),
                           ),
