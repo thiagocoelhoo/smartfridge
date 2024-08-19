@@ -30,7 +30,7 @@ final List<Product> products = [
   Product("Queijo", 500, "g"),
   Product("Maçã", 10, "Unidade(s)"),
 ];
-final List<String> unitOptions = ["Unidade(s)", "kg", "g", "L", "ml"];
+final List<String> unitOptions = ["Unidade(s)", "Kg", "g", "L", "ml"];
 
 
 class _ShoppingListPage extends State<ShoppingListPage> {
