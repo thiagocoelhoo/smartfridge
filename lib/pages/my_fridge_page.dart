@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:smartfridge/pages/add_items_fridge_page.dart';
 
 class Product {
   String name;
@@ -34,67 +35,72 @@ class _MyHomePageState extends State<MyFridgePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: _appBar(),
-        body: Center(
-          child: Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Column(
-                children: <Widget>[
-                  SearchBar(
-                    leading: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Icon(Icons.filter_alt),
-                    ),
-                    trailing: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Icon(Icons.search),
-                      )
-                    ],
+      appBar: _appBar(),
+      body: Center(
+        child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              children: <Widget>[
+                SearchBar(
+                  leading: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Icon(Icons.filter_alt),
                   ),
-                  SizedBox(height: 16.0),
-                  Expanded(
-                      child: ListView(
-                    children: widget.products.map((Product p) {
-                      return Card(
-                        color: Colors.transparent,
-                        elevation: 0,
-                        margin: EdgeInsets.all(8),
-                        child: Container(
-                            decoration: BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(
-                                  color: Colors.white,
-                                  width: 1.0,
-                                ),
+                  trailing: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Icon(Icons.search),
+                    )
+                  ],
+                ),
+                SizedBox(height: 16.0),
+                Expanded(
+                    child: ListView(
+                  children: widget.products.map((Product p) {
+                    return Card(
+                      color: Colors.transparent,
+                      elevation: 0,
+                      margin: EdgeInsets.all(8),
+                      child: Container(
+                          decoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                color: Colors.white,
+                                width: 1.0,
                               ),
                             ),
-                            padding: EdgeInsets.all(16.0),
-                            child: Row(
-                              children: [
-                                Icon(Icons.fastfood),
-                                SizedBox(width: 16),
-                                Text(
-                                  p.name,
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                              ],
-                            )),
-                      );
-                    }).toList(),
-                  ))
-                ],
-              )),
+                          ),
+                          padding: EdgeInsets.all(16.0),
+                          child: Row(
+                            children: [
+                              Icon(Icons.fastfood),
+                              SizedBox(width: 16),
+                              Text(
+                                p.name,
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          )),
+                    );
+                  }).toList(),
+                ))
+              ],
+            )),
+      ),
+      floatingActionButton: Container(
+        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        child: FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AddItemsFridgePage()),
+            );
+          },
+          icon: Icon(Icons.add),
+          label: Text("Add"),
         ),
-        floatingActionButton: Container(
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
-          child: FloatingActionButton.extended(
-            onPressed: () {
-            },
-            icon: Icon(Icons.add),
-            label: Text("Add Item"),
-          ),
-        ));
+      ),
+    );
   }
 
   AppBar _appBar() {
