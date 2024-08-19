@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartfridge/pages/recipe_details.dart';
 import 'package:smartfridge/widgets/carousel.dart';
 
 class RecipesPage extends StatefulWidget {
@@ -57,7 +58,15 @@ class _RecipesPage extends State<RecipesPage> {
         child: ListTile(
             title: Text(title),
             subtitle: Text(subtitle),
-            trailing: Icon(Icons.chevron_right),
+            trailing: IconButton(
+                icon: Icon(Icons.chevron_right),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => RecipeDetailsPage()),
+                  );
+              },
+            ),
             leading: Image.asset(image_path, width: 120, fit: BoxFit.cover)),
       ),
     );
