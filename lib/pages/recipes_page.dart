@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smartfridge/pages/recipe_details.dart';
+import 'package:smartfridge/pages/test.dart';
 import 'package:smartfridge/widgets/carousel.dart';
 
 class RecipesPage extends StatefulWidget {
@@ -64,7 +65,7 @@ class _RecipesPage extends State<RecipesPage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const RecipeDetailsPage()),
+                  MaterialPageRoute(builder: (context) => const RecipeDetailsScreen(mealId: '52771',)),
                 );
               },
             ),
