@@ -47,7 +47,7 @@ class _RecipesPage extends State<RecipesPage> {
             children: [
               const Text("Recomendados", style: TextStyle(fontSize: 20)),
               ...widget.recipes.map((Recipe r) {
-                return _recipeCard(r.urlImage, r.name, "${r.ingredients.length} ingredients");
+                return _recipeCard(r.urlImage, r.name, "${r.ingredients.length} ingredients // ${ r.duration}");
               }).toList(),
             ],
           ),

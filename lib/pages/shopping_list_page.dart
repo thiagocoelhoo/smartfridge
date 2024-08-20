@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:smartfridge/services/test_values.dart';
+import 'package:smartfridge/utils/quantity.dart';
 
 import '../models/product.dart';
 import '../utils.dart';
@@ -13,7 +14,7 @@ class ShoppingListPage extends StatefulWidget {
 }
 
 final List<Product> products = productsList2;
-final List<String> unitOptions = measureList;
+final List<String> unitOptions = Quantity.getUnits();
 
 class _ShoppingListPage extends State<ShoppingListPage> {
   @override
@@ -32,7 +33,7 @@ class _ShoppingListPage extends State<ShoppingListPage> {
           return Card(
             child: ListTile(
               title: Text(product.name),
-              subtitle: Text("Quantidade: ${product.amount} ${product.unit}"),
+              subtitle: Text("Quantidade: ${product.amount}"),
               trailing: IconButton(
                 icon: const Icon(Icons.attach_money),
                 color: Colors.green,
@@ -80,15 +81,16 @@ void _showProductModal(BuildContext context, Product product) {
                         Expanded(
                           flex: 2,
                           child: TextFormField(
-                            initialValue: product.amount.toString(),
+                            initialValue: product.amount.value.toString(),
                             keyboardType: TextInputType.number,
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly
                             ],
                             onChanged: (value) {
-                              product.amount =
-                                  int.tryParse(value) ?? product.amount;
-                            },
+                              product.amount = Quantity(
+                                  double.tryParse(value) ?? product.amount.value,
+                                  product.amount.unit
+                              );                         },
                             decoration:
                                 const InputDecoration(labelText: "Quantidade"),
                           ),
@@ -97,16 +99,28 @@ void _showProductModal(BuildContext context, Product product) {
                         Expanded(
                           flex: 1,
                           child: DropdownButton<String>(
-                            value: product.unit,
+                            value: unitOptions.contains(product.amount.unit.toString().split('.').last)
+                                ? product.amount.unit.toString().split('.').last
+                                : null,
                             onChanged: (newValue) {
-                              setState(() {
-                                product.unit = newValue;
-                              });
+                              if (newValue != null) {
+                                setState(() {
+                                  try {
+                                    product.amount.unit = QuantityUnit.values.firstWhere(
+                                          (unit) => unit.toString().split('.').last == newValue,
+                                      orElse: () => QuantityUnit.UNIT, // Provide a default value
+                                    );
+                                  } catch (e) {
+                                    // Handle the error, e.g., show a message to the user
+                                    print('Error: $e');
+                                  }
+                                });
+                              }
                             },
                             items: unitOptions.map((unit) {
                               return DropdownMenuItem<String>(
                                 value: unit,
-                                child: Text(" $unit"),
+                                child: Text(unit),
                               );
                             }).toList(),
                             isExpanded: true,
@@ -153,7 +167,7 @@ void _showConfirmationDialog(BuildContext context, Product product) {
           child: Text("Item Comprado!"),
         ),
         content: Text(
-            "${product.amount} ${product.unit} ${product.name} ${product.amount > 1 ? 'foram' : 'foi'} movidos para o estoque."),
+            "${product.amount} de ${product.name} ${product.amount.value > 1 ? 'foram' : 'foi'} movidos para o estoque."),
         actionsAlignment: MainAxisAlignment.center,
         actions: [
           TextButton(

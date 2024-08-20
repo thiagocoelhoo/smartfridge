@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:smartfridge/utils.dart';
+import 'package:smartfridge/utils/quantity.dart';
 
 class AddItemsFridgePage extends StatefulWidget {
   const AddItemsFridgePage({super.key});
@@ -11,8 +12,8 @@ class AddItemsFridgePage extends StatefulWidget {
 
 class _AddItemsFridgePageState extends State<AddItemsFridgePage> {
   final TextEditingController _dateController = TextEditingController();
-  final List<String> items = measureList;
-  String _selectedUnit = measureList[0];
+  final List<String> items = Quantity.getUnits();
+  String _selectedUnit = Quantity.getUnits()[0];
 
   @override
   void dispose() {
@@ -110,7 +111,7 @@ class _AddItemsFridgePageState extends State<AddItemsFridgePage> {
       readOnly: true,
       decoration: InputDecoration(
         labelText: "Data de validade",
-        hintText: "DD/MM/YYYY",
+        hintText: "MM/DD/YYYY",
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
@@ -135,7 +136,7 @@ class _AddItemsFridgePageState extends State<AddItemsFridgePage> {
   }
 
   String _formatDate(DateTime date) {
-    return '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
+    return '${date.month.toString().padLeft(2, '0')}/${date.day.toString().padLeft(2, '0')}/${date.year}';
   }
 }
 

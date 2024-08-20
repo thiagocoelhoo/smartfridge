@@ -66,7 +66,7 @@ class _MyHomePageState extends State<MyFridgePage> {
                                 ),
                               ],
                             ),
-                            Text("${p.amount} ${p.unit!}"),
+                            Text("${p.amount}"),
                           ],
                         ),
                       ),
