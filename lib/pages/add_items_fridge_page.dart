@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:smartfridge/utils.dart';
 
 class AddItemsFridgePage extends StatefulWidget {
   const AddItemsFridgePage({super.key});
@@ -10,8 +11,8 @@ class AddItemsFridgePage extends StatefulWidget {
 
 class _AddItemsFridgePageState extends State<AddItemsFridgePage> {
   final TextEditingController _dateController = TextEditingController();
-  final List<String> items = ['Unidade(s)', '(ml)', '(L)', '(g)', '(Kg)'];
-  String _selectedUnit = 'Unidade(s)';
+  final List<String> items = measureList;
+  String _selectedUnit = measureList[0];
 
   @override
   void dispose() {

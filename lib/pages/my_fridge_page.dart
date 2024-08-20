@@ -1,23 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:smartfridge/pages/add_items_fridge_page.dart';
+import 'package:smartfridge/services/test_values.dart';
 
 import '../models/product.dart';
 
 class MyFridgePage extends StatefulWidget {
-  List<Product> products = [
-    Product("Pão", 10, "Unidade(s)"),
-    Product("Carne", 2, "Kg"),
-    Product("Café", 200, "ml"),
-    Product("Arroz", 3, 'Kg'),
-    Product("Leite", 4, "L"),
-    Product("Maçã", 6, "Unidade(s)"),
-    Product("Queijo", 250, "g"),
-    Product("Ovos", 12, "Unidade(s)"),
-    Product("Iogurte", 500, "ml"),
-    Product("Tomate", 5, "Unidade(s)"),
-    Product("Açúcar", 1, "Kg"),
-    Product("Feijão", 500, "g"),
-  ];
+  List<Product> products = productsList;
 
   MyFridgePage({super.key});
 

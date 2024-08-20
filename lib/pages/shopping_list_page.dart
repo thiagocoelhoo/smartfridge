@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:smartfridge/services/test_values.dart';
 
 import '../models/product.dart';
+import '../utils.dart';
 
 class ShoppingListPage extends StatefulWidget {
   const ShoppingListPage({super.key});
@@ -10,20 +12,8 @@ class ShoppingListPage extends StatefulWidget {
   State<ShoppingListPage> createState() => _ShoppingListPage();
 }
 
-final List<Product> products = [
-  Product("Ovos", 30, "Unidade(s)"),
-  Product("Macarrão", 2, "Kg"),
-  Product("Café", 1, "L"),
-  Product("Arroz", 5, "Kg"),
-  Product("Feijão", 3, "Kg"),
-  Product("Leite", 4, "L"),
-  Product("Açúcar", 2, "Kg"),
-  Product("Banana", 12, "Unidade(s)"),
-  Product("Tomate", 8, "Unidade(s)"),
-  Product("Queijo", 500, "g"),
-  Product("Maçã", 10, "Unidade(s)"),
-];
-final List<String> unitOptions = ["Unidade(s)", "Kg", "g", "L", "ml"];
+final List<Product> products = productsList2;
+final List<String> unitOptions = measureList;
 
 class _ShoppingListPage extends State<ShoppingListPage> {
   @override

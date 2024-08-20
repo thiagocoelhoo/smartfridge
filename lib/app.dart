@@ -39,7 +39,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   var pages = <Widget>[
     MyFridgePage(),
-    const RecipesPage(),
+    RecipesPage(),
     const ShoppingListPage(),
   ];
 

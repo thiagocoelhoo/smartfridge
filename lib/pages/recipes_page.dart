@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:smartfridge/models/recipe.dart';
 import 'package:smartfridge/pages/recipe_details.dart';
+import 'package:smartfridge/services/test_values.dart';
 import 'package:smartfridge/widgets/carousel.dart';
 
 class RecipesPage extends StatefulWidget {
-  const RecipesPage({super.key});
+  List<Recipe> recipes = recipesList;
+
+  RecipesPage({super.key});
 
   @override
   State<RecipesPage> createState() => _RecipesPage();
 }
 
 class _RecipesPage extends State<RecipesPage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,23 +36,21 @@ class _RecipesPage extends State<RecipesPage> {
           const Text("Receitas Populares", style: TextStyle(fontSize: 20)),
           Carousel(
             images: [
-              Image.asset("assets/images/bife acebolado.jpg"),
-              Image.asset("assets/images/pao de queijo.jpg"),
-              Image.asset("assets/images/lasanha.jpg"),
-              Image.asset("assets/images/macarronada.jpg"),
+              ...widget.recipes.map((Recipe r) {
+                return Image.asset(r.urlImage);
+              }).toList(),
             ],
             height: 400,
           ),
           const SizedBox(height: 20),
-          const Text("Recomendados", style: TextStyle(fontSize: 20)),
-          _recipeCard("assets/images/bife acebolado.jpg", "Bife acebolado",
-              "3/5 ingredientes"),
-          _recipeCard("assets/images/lasanha.jpg", "Lasanha de forno",
-              "Todos os ingredientes"),
-          _recipeCard("assets/images/macarronada.jpg",
-              "Macarronada com ervilhas", "2/4 ingredientes"),
-          _recipeCard("assets/images/pao de queijo.jpg",
-              "Pão de queijo mineiro", "3/4 ingredientes"),
+          Column(
+            children: [
+              const Text("Recomendados", style: TextStyle(fontSize: 20)),
+              ...widget.recipes.map((Recipe r) {
+                return _recipeCard(r.urlImage, r.name, "${r.ingredients.length} ingredients");
+              }).toList(),
+            ],
+          ),
         ],
       ),
     );
@@ -64,7 +67,8 @@ class _RecipesPage extends State<RecipesPage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const RecipeDetailsPage()),
+                  MaterialPageRoute(
+                      builder: (context) => const RecipeDetailsPage()),
                 );
               },
             ),
