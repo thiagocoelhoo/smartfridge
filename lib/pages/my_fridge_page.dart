@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:smartfridge/pages/add_items_fridge_page.dart';
 
 import '../models/product.dart';
@@ -33,10 +32,10 @@ class _MyHomePageState extends State<MyFridgePage> {
       appBar: _appBar(),
       body: Center(
         child: Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               children: <Widget>[
-                SearchBar(
+                const SearchBar(
                   leading: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8.0),
                     child: Icon(Icons.filter_alt),
@@ -48,16 +47,16 @@ class _MyHomePageState extends State<MyFridgePage> {
                     )
                   ],
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 Expanded(
                     child: ListView(
                   children: widget.products.map((Product p) {
                     return Card(
                       color: Colors.transparent,
                       elevation: 0,
-                      margin: EdgeInsets.all(2),
+                      margin: const EdgeInsets.all(2),
                       child: Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           border: Border(
                             bottom: BorderSide(
                               color: Colors.white12,
@@ -65,21 +64,21 @@ class _MyHomePageState extends State<MyFridgePage> {
                             ),
                           ),
                         ),
-                        padding: EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.all(16.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Row(
                               children: [
-                                Icon(Icons.fastfood),
-                                SizedBox(width: 16),
+                                const Icon(Icons.fastfood),
+                                const SizedBox(width: 16),
                                 Text(
                                   p.name,
-                                  style: TextStyle(fontSize: 20),
+                                  style: const TextStyle(fontSize: 20),
                                 ),
                               ],
                             ),
-                            Text(p.amount.toString() + " " + p.unit!),
+                            Text("${p.amount} ${p.unit!}"),
                           ],
                         ),
                       ),
@@ -90,16 +89,16 @@ class _MyHomePageState extends State<MyFridgePage> {
             )),
       ),
       floatingActionButton: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: FloatingActionButton.extended(
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => AddItemsFridgePage()),
+              MaterialPageRoute(builder: (context) => const AddItemsFridgePage()),
             );
           },
-          icon: Icon(Icons.add),
-          label: Text("Add"),
+          icon: const Icon(Icons.add),
+          label: const Text("Add"),
         ),
       ),
     );
@@ -108,7 +107,7 @@ class _MyHomePageState extends State<MyFridgePage> {
   AppBar _appBar() {
     return AppBar(
       backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
-      title: Center(child: Text("My fridge")),
+      title: const Center(child: Text("My fridge")),
     );
   }
 }

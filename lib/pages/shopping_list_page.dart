@@ -1,11 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../models/product.dart';
 
 class ShoppingListPage extends StatefulWidget {
-  ShoppingListPage();
+  const ShoppingListPage({super.key});
 
   @override
   State<ShoppingListPage> createState() => _ShoppingListPage();
@@ -33,10 +32,10 @@ class _ShoppingListPage extends State<ShoppingListPage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
         centerTitle: true,
-        title: Text("Shopping list"),
+        title: const Text("Shopping list"),
       ),
       body: ListView.builder(
-        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 4),
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
         itemCount: products.length,
         itemBuilder: (context, index) {
           final product = products[index];
@@ -45,7 +44,7 @@ class _ShoppingListPage extends State<ShoppingListPage> {
               title: Text(product.name),
               subtitle: Text("Quantidade: ${product.amount} ${product.unit}"),
               trailing: IconButton(
-                icon: Icon(Icons.attach_money),
+                icon: const Icon(Icons.attach_money),
                 color: Colors.green,
                 onPressed: () {
                   _showConfirmationDialog(context, product);
@@ -69,23 +68,23 @@ void _showProductModal(BuildContext context, Product product) {
       return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
           return Container(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
                   children: [
-                    Center(
+                    const Center(
                       child: Text("Produto"),
                     ),
-                    SizedBox(height: 32),
+                    const SizedBox(height: 32),
                     TextFormField(
                       initialValue: product.name,
                       autocorrect: true,
-                      decoration: InputDecoration(labelText: "Nome"),
+                      decoration: const InputDecoration(labelText: "Nome"),
                     ),
-                    SizedBox(height: 32),
+                    const SizedBox(height: 32),
                     Row(
                       children: [
                         Expanded(
@@ -101,10 +100,10 @@ void _showProductModal(BuildContext context, Product product) {
                                   int.tryParse(value) ?? product.amount;
                             },
                             decoration:
-                                InputDecoration(labelText: "Quantidade"),
+                                const InputDecoration(labelText: "Quantidade"),
                           ),
                         ),
-                        SizedBox(width: 16),
+                        const SizedBox(width: 16),
                         Expanded(
                           flex: 1,
                           child: DropdownButton<String>(
@@ -117,7 +116,7 @@ void _showProductModal(BuildContext context, Product product) {
                             items: unitOptions.map((unit) {
                               return DropdownMenuItem<String>(
                                 value: unit,
-                                child: Text(" " + unit),
+                                child: Text(" $unit"),
                               );
                             }).toList(),
                             isExpanded: true,
@@ -126,7 +125,7 @@ void _showProductModal(BuildContext context, Product product) {
                         ),
                       ],
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                   ],
                 ),
                 Row(
@@ -136,13 +135,13 @@ void _showProductModal(BuildContext context, Product product) {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text("Cancelar"),
+                      child: const Text("Cancelar"),
                     ),
                     ElevatedButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text("Salvar"),
+                      child: const Text("Salvar"),
                     ),
                   ],
                 )
@@ -160,7 +159,7 @@ void _showConfirmationDialog(BuildContext context, Product product) {
     context: context,
     builder: (context) {
       return AlertDialog(
-        title: Center(
+        title: const Center(
           child: Text("Item Comprado!"),
         ),
         content: Text(
@@ -171,7 +170,7 @@ void _showConfirmationDialog(BuildContext context, Product product) {
             onPressed: () {
               Navigator.pop(context); // Close the dialog
             },
-            child: Text("OK"),
+            child: const Text("OK"),
           ),
         ],
       );

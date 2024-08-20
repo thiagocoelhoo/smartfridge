@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AddItemsFridgePage extends StatefulWidget {
+  const AddItemsFridgePage({super.key});
+
   @override
   _AddItemsFridgePageState createState() => _AddItemsFridgePageState();
 }
@@ -22,24 +24,24 @@ class _AddItemsFridgePageState extends State<AddItemsFridgePage> {
     return Scaffold(
         appBar: _appBar(context),
         body: SingleChildScrollView(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             children: [
               _buildTextField("Nome", "Insira o nome do produto"),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Row(
                 children: [
                   Expanded(
                       child: _buildTextField(
                           "Quantidade", "Insira a quantidade",
                           digitsOnly: true)),
-                  SizedBox(width: 16),
+                  const SizedBox(width: 16),
                   Expanded(child: _buildDropdownField("Unidade(s)", items)),
                 ],
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               _buildTextField("Icone", "Selecione um ícone"),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               _buildDateField(context),
             ],
           ),
@@ -49,16 +51,16 @@ class _AddItemsFridgePageState extends State<AddItemsFridgePage> {
   AppBar _appBar(BuildContext context) {
     return AppBar(
       backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
-      title: Center(child: Text("Add product")),
+      title: const Center(child: Text("Add product")),
     );
   }
 
   Widget _buildTextField(String label, String hintText,
       {bool digitsOnly = false}) {
-    TextEditingController _textController = TextEditingController();
+    TextEditingController textController = TextEditingController();
 
     return TextField(
-      controller: _textController,
+      controller: textController,
       keyboardType: TextInputType.number,
       inputFormatters:
           digitsOnly ? [FilteringTextInputFormatter.digitsOnly] : null,
@@ -69,9 +71,9 @@ class _AddItemsFridgePageState extends State<AddItemsFridgePage> {
           borderRadius: BorderRadius.circular(10.0),
         ),
         suffixIcon: IconButton(
-          icon: Icon(Icons.clear),
+          icon: const Icon(Icons.clear),
           onPressed: () {
-            _textController.clear();
+            textController.clear();
           },
         ),
       ),
@@ -112,7 +114,7 @@ class _AddItemsFridgePageState extends State<AddItemsFridgePage> {
           borderRadius: BorderRadius.circular(10.0),
         ),
         suffixIcon: IconButton(
-          icon: Icon(Icons.calendar_today),
+          icon: const Icon(Icons.calendar_today),
           onPressed: () async {
             DateTime? selectedDate = await showDatePicker(
               context: context,
@@ -137,7 +139,7 @@ class _AddItemsFridgePageState extends State<AddItemsFridgePage> {
 }
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: AddItemsFridgePage(),
   ));
 }

@@ -16,7 +16,7 @@ class _RecipesPage extends State<RecipesPage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
         centerTitle: true,
-        title: Text("Recipes"),
+        title: const Text("Recipes"),
       ),
       body: _body(context),
     );
@@ -24,11 +24,11 @@ class _RecipesPage extends State<RecipesPage> {
 
   Widget _body(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 12.0),
+      padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 12.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Receitas Populares", style: TextStyle(fontSize: 20)),
+          const Text("Receitas Populares", style: TextStyle(fontSize: 20)),
           Carousel(
             images: [
               Image.asset("assets/images/bife acebolado.jpg"),
@@ -38,8 +38,8 @@ class _RecipesPage extends State<RecipesPage> {
             ],
             height: 400,
           ),
-          SizedBox(height: 20),
-          Text("Recomendados", style: TextStyle(fontSize: 20)),
+          const SizedBox(height: 20),
+          const Text("Recomendados", style: TextStyle(fontSize: 20)),
           _recipeCard("assets/images/bife acebolado.jpg", "Bife acebolado",
               "3/5 ingredientes"),
           _recipeCard("assets/images/lasanha.jpg", "Lasanha de forno",
@@ -53,25 +53,22 @@ class _RecipesPage extends State<RecipesPage> {
     );
   }
 
-  Widget _recipeCard(String image_path, String title, String subtitle) {
+  Widget _recipeCard(String imagePath, String title, String subtitle) {
     return GestureDetector(
-      onTap: () {
-        print("Acessar $title");
-      },
       child: Card(
         child: ListTile(
             title: Text(title),
             subtitle: Text(subtitle),
             trailing: IconButton(
-              icon: Icon(Icons.chevron_right),
+              icon: const Icon(Icons.chevron_right),
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => RecipeDetailsPage()),
+                  MaterialPageRoute(builder: (context) => const RecipeDetailsPage()),
                 );
               },
             ),
-            leading: Image.asset(image_path, width: 120, fit: BoxFit.cover)),
+            leading: Image.asset(imagePath, width: 120, fit: BoxFit.cover)),
       ),
     );
   }

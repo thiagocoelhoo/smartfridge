@@ -39,8 +39,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   var pages = <Widget>[
     MyFridgePage(),
-    RecipesPage(),
-    ShoppingListPage(),
+    const RecipesPage(),
+    const ShoppingListPage(),
   ];
 
   int currentPageIndex = 1;
@@ -80,11 +80,5 @@ class _HomePageState extends State<HomePage> {
 
   Widget _body() {
     return pages[currentPageIndex];
-    return const Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[],
-      ),
-    );
   }
 }

@@ -15,7 +15,7 @@ class _RecipeDetailsPage extends State<RecipeDetailsPage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
         centerTitle: true,
-        title: Text("Recipes"),
+        title: const Text("Recipes"),
       ),
       body: _body(context),
     );
@@ -23,11 +23,11 @@ class _RecipeDetailsPage extends State<RecipeDetailsPage> {
 
   Widget _body(BuildContext context) {
     return SingleChildScrollView(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Text("Macarronada com ervilhas", style: TextStyle(fontSize: 26)),
-            SizedBox(height: 12),
+            const Text("Macarronada com ervilhas", style: TextStyle(fontSize: 26)),
+            const SizedBox(height: 12),
             Carousel(
               images: [
                 Image.asset("assets/images/macarronada.jpg"),
@@ -37,8 +37,8 @@ class _RecipeDetailsPage extends State<RecipeDetailsPage> {
               ],
               height: 400,
             ),
-            SizedBox(height: 20),
-            Text("Ingredientes", style: TextStyle(fontSize: 20)),
+            const SizedBox(height: 20),
+            const Text("Ingredientes", style: TextStyle(fontSize: 20)),
             ClipRRect(
               borderRadius: BorderRadius.circular(22),
               child: Container(
@@ -46,7 +46,7 @@ class _RecipeDetailsPage extends State<RecipeDetailsPage> {
                   width: double.infinity,
                   height: 400,
                   child: ListView(
-                    children: [
+                    children: const [
                       ListTile(title: Text("Cebola")),
                       ListTile(title: Text("Molho de tomate")),
                       ListTile(title: Text("Macarrão para espaguete")),
@@ -56,8 +56,8 @@ class _RecipeDetailsPage extends State<RecipeDetailsPage> {
                     ],
                   )),
             ),
-            SizedBox(height: 20),
-            Text("Modo de preparo", style: TextStyle(fontSize: 20)),
+            const SizedBox(height: 20),
+            const Text("Modo de preparo", style: TextStyle(fontSize: 20)),
             ClipRRect(
               borderRadius: BorderRadius.circular(22),
               child: Container(
@@ -65,7 +65,7 @@ class _RecipeDetailsPage extends State<RecipeDetailsPage> {
                   width: double.infinity,
                   height: 400,
                   child: ListView(
-                    children: [
+                    children: const [
                       ListTile(title: Text("1 - Adicionar a água e macarrão na panela")),
                       ListTile(title: Text("2 - Fazer o resto da receita")),
                       ListTile(title: Text("3 - Servir")),
@@ -73,12 +73,12 @@ class _RecipeDetailsPage extends State<RecipeDetailsPage> {
                     ],
                   )),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             MaterialButton(
                 color: Theme.of(context).colorScheme.primary,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)),
-                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                 height: 60,
                 minWidth: double.infinity,
                 onPressed: () {},
