@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:smartfridge/utils/quantity.dart';
+
+import '../models/product.dart';
+import '../repository/fridge_repository.dart';
 
 class AddItemsFridgePage extends StatefulWidget {
   const AddItemsFridgePage({super.key});
@@ -10,12 +14,16 @@ class AddItemsFridgePage extends StatefulWidget {
 }
 
 class AddItemsFridgePageState extends State<AddItemsFridgePage> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _quantityController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
   final List<String> items = Quantity.getUnits();
   String _selectedUnit = Quantity.getUnits()[0];
 
   @override
   void dispose() {
+    _nameController.dispose();
+    _quantityController.dispose();
     _dateController.dispose();
     super.dispose();
   }
@@ -23,30 +31,35 @@ class AddItemsFridgePageState extends State<AddItemsFridgePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: _appBar(context),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              _buildTextField("Nome", "Insira o nome do produto"),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(
-                      child: _buildTextField(
-                          "Quantidade", "Insira a quantidade",
-                          digitsOnly: true)),
-                  const SizedBox(width: 16),
-                  Expanded(child: _buildDropdownField("Unidade(s)", items)),
-                ],
-              ),
-              const SizedBox(height: 16),
-              _buildTextField("Icone", "Selecione um ícone"),
-              const SizedBox(height: 16),
-              _buildDateField(context),
-            ],
-          ),
-        ));
+      appBar: _appBar(context),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            _buildTextField("Nome", "Insira o nome do produto", controller: _nameController),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: _buildTextField("Quantidade", "Insira a quantidade", digitsOnly: true, controller: _quantityController),
+                ),
+                const SizedBox(width: 16),
+                Expanded(child: _buildDropdownField("Unidade(s)", items)),
+              ],
+            ),
+            const SizedBox(height: 16),
+            _buildDateField(context),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                _saveProduct(context);
+              },
+              child: const Text("Salvar Produto"),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   AppBar _appBar(BuildContext context) {
@@ -56,15 +69,27 @@ class AddItemsFridgePageState extends State<AddItemsFridgePage> {
     );
   }
 
-  Widget _buildTextField(String label, String hintText,
-      {bool digitsOnly = false}) {
-    TextEditingController textController = TextEditingController();
+  void _saveProduct(BuildContext context) {
+    final String name = _nameController.text;
+    final double quantity = double.tryParse(_quantityController.text) ?? 0;
+    final String unit = _selectedUnit;
 
+    if (name.isNotEmpty && quantity > 0) {
+      final product = Product(name, Quantity(quantity, QuantityUnit.values.firstWhere((e) => e.toString() == 'QuantityUnit.$unit')));
+      Provider.of<FridgeRepository>(context, listen: false).addProduct(product);
+      Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Preencha os campos os campos corretamente"),
+      ));
+    }
+  }
+
+  Widget _buildTextField(String label, String hintText, {bool digitsOnly = false, required TextEditingController controller}) {
     return TextField(
-      controller: textController,
-      keyboardType: TextInputType.number,
-      inputFormatters:
-          digitsOnly ? [FilteringTextInputFormatter.digitsOnly] : null,
+      controller: controller,
+      keyboardType: digitsOnly ? TextInputType.number : TextInputType.text,
+      inputFormatters: digitsOnly ? [FilteringTextInputFormatter.digitsOnly] : null,
       decoration: InputDecoration(
         labelText: label,
         hintText: hintText,
@@ -74,7 +99,7 @@ class AddItemsFridgePageState extends State<AddItemsFridgePage> {
         suffixIcon: IconButton(
           icon: const Icon(Icons.clear),
           onPressed: () {
-            textController.clear();
+            controller.clear();
           },
         ),
       ),
@@ -137,10 +162,4 @@ class AddItemsFridgePageState extends State<AddItemsFridgePage> {
   String _formatDate(DateTime date) {
     return '${date.month.toString().padLeft(2, '0')}/${date.day.toString().padLeft(2, '0')}/${date.year}';
   }
-}
-
-void main() {
-  runApp(const MaterialApp(
-    home: AddItemsFridgePage(),
-  ));
 }
