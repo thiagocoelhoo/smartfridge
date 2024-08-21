@@ -51,35 +51,44 @@ class _RecipeDetailsPage extends State<RecipeDetailsPage> {
             ClipRRect(
               borderRadius: BorderRadius.circular(22),
               child: Container(
-                  color: Theme.of(context).colorScheme.surfaceBright,
-                  width: double.infinity,
-                  height: 400,
-                  child: ListView(
-                    children:
-                      widget.recipe!.ingredients.map((product) {
-                        return ListTile(title: Text("${product.amount} de ${product.name}"));
-                      }).toList(),
-                  )),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surfaceContainer,
+                  border: Border.all(color: Theme.of(context).colorScheme.onTertiary, width: 1.5),
+                  borderRadius: BorderRadius.circular(22),
+                ),
+                width: double.infinity,
+                height: 400,
+                child: Column(
+                  children: widget.recipe!.ingredients.map((product) {
+                    return ListTile(title: Text("${product.amount} de ${product.name}"));
+                  }).toList(),
+                ),
+              ),
             ),
             const SizedBox(height: 20),
             const Text("Modo de preparo", style: TextStyle(fontSize: 20)),
             ClipRRect(
               borderRadius: BorderRadius.circular(22),
               child: Container(
-                  color: Theme.of(context).colorScheme.surfaceBright,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surfaceContainer,
+                    border: Border.all(color: Theme.of(context).colorScheme.onTertiary, width: 1.5),
+                    borderRadius: BorderRadius.circular(22),
+                  ),
                   width: double.infinity,
                   height: 400,
-                  child: ListView(
+                  child: Column(
                     children: widget.recipe!.stepByStep.asMap().entries.map((entry) {
                       int index = entry.key;
                       String step = entry.value;
-                      return ListTile(title: Text("${index + 1} - $step"));
+                      return ListTile(title: Text("${index + 1}. $step"));
                     }).toList(),
                   )),
             ),
             const SizedBox(height: 20),
             MaterialButton(
-                color: Theme.of(context).colorScheme.primary,
+              // a purple cor when in dark mode
+                color: Theme.of(context).colorScheme.onTertiaryFixedVariant,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)),
                 padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
@@ -89,9 +98,9 @@ class _RecipeDetailsPage extends State<RecipeDetailsPage> {
                 child: Text(
                   "Iniciar receita",
                   style: TextStyle(
-                    color: Theme.of(context).colorScheme.onPrimary,
+                    color: Theme.of(context).colorScheme.inverseSurface,
                     fontSize: 16,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                   ),
                 ))
           ],

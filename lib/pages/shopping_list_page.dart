@@ -4,7 +4,7 @@ import 'package:smartfridge/services/test_values.dart';
 import 'package:smartfridge/utils/quantity.dart';
 
 import '../models/product.dart';
-import '../utils.dart';
+import '../utils/utils.dart';
 
 class ShoppingListPage extends StatefulWidget {
   const ShoppingListPage({super.key});
@@ -48,8 +48,18 @@ class _ShoppingListPage extends State<ShoppingListPage> {
           );
         },
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: Theme.of(context).colorScheme.onTertiaryFixedVariant,
+        foregroundColor: Colors.white,
+        onPressed: () {
+
+        },
+        icon: const Icon(Icons.add),
+        label: const Text("Add"),
+      ),
     );
   }
+
 }
 
 void _showProductModal(BuildContext context, Product product) {

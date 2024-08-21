@@ -33,7 +33,9 @@ class _RecipesPage extends State<RecipesPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("Receitas Populares", style: TextStyle(fontSize: 20)),
+          const Center(
+            child: Text("Recipes", style: TextStyle(fontSize: 24)),
+          ),
           Carousel(
             images: [
               ...widget.recipes.map((Recipe r) {
@@ -48,7 +50,7 @@ class _RecipesPage extends State<RecipesPage> {
               const Text("Recomendados", style: TextStyle(fontSize: 20)),
               ...widget.recipes.map((Recipe r) {
                 return _recipeCard(r);
-              }).toList(),
+              }),
             ],
           ),
         ],
@@ -68,11 +70,7 @@ class _RecipesPage extends State<RecipesPage> {
           },
             title: Text(recipe.name),
             subtitle: Text("${recipe.ingredients.length} ingredients // ${recipe.duration}"),
-            trailing: IconButton(
-              icon: const Icon(Icons.chevron_right),
-              onPressed: () {
-              },
-            ),
+            trailing: const Icon(Icons.chevron_right),
             leading: Image.asset(recipe.urlImage, width: 120, fit: BoxFit.cover)),
       ),
     );
