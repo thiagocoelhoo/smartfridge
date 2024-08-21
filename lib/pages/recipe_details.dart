@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:smartfridge/widgets/carousel.dart';
+import '../models/recipe.dart';
 
 class RecipeDetailsPage extends StatefulWidget {
-  const RecipeDetailsPage({super.key});
+  final Recipe? recipe;
+
+  const RecipeDetailsPage(this.recipe, {super.key});
 
   @override
   State<RecipeDetailsPage> createState() => _RecipeDetailsPage();
@@ -17,7 +20,16 @@ class _RecipeDetailsPage extends State<RecipeDetailsPage> {
         centerTitle: true,
         title: const Text("Recipes"),
       ),
-      body: _body(context),
+      body: widget.recipe == null ? _noRecipeFound() : _body(context),
+    );
+  }
+
+  Widget _noRecipeFound() {
+    return Center(
+      child: Text(
+        "Recipe not found",
+        style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.onSurface),
+      ),
     );
   }
 
@@ -26,14 +38,11 @@ class _RecipeDetailsPage extends State<RecipeDetailsPage> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            const Text("Macarronada com ervilhas", style: TextStyle(fontSize: 26)),
+            Text(widget.recipe!.name, style: const TextStyle(fontSize: 26)),
             const SizedBox(height: 12),
             Carousel(
               images: [
-                Image.asset("assets/images/macarronada.jpg"),
-                Image.asset("assets/images/bife acebolado.jpg"),
-                Image.asset("assets/images/pao de queijo.jpg"),
-                Image.asset("assets/images/lasanha.jpg"),
+                Image.asset(widget.recipe!.urlImage),
               ],
               height: 400,
             ),
@@ -46,14 +55,10 @@ class _RecipeDetailsPage extends State<RecipeDetailsPage> {
                   width: double.infinity,
                   height: 400,
                   child: ListView(
-                    children: const [
-                      ListTile(title: Text("Cebola")),
-                      ListTile(title: Text("Molho de tomate")),
-                      ListTile(title: Text("Macarrão para espaguete")),
-                      ListTile(title: Text("Ervilhas")),
-                      ListTile(title: Text("Água")),
-                      ListTile(title: Text("Sal")),
-                    ],
+                    children:
+                      widget.recipe!.ingredients.map((product) {
+                        return ListTile(title: Text("${product.amount} de ${product.name}"));
+                      }).toList(),
                   )),
             ),
             const SizedBox(height: 20),
@@ -65,12 +70,11 @@ class _RecipeDetailsPage extends State<RecipeDetailsPage> {
                   width: double.infinity,
                   height: 400,
                   child: ListView(
-                    children: const [
-                      ListTile(title: Text("1 - Adicionar a água e macarrão na panela")),
-                      ListTile(title: Text("2 - Fazer o resto da receita")),
-                      ListTile(title: Text("3 - Servir")),
-                      ListTile(title: Text("4 - :)")),
-                    ],
+                    children: widget.recipe!.stepByStep.asMap().entries.map((entry) {
+                      int index = entry.key;
+                      String step = entry.value;
+                      return ListTile(title: Text("${index + 1} - $step"));
+                    }).toList(),
                   )),
             ),
             const SizedBox(height: 20),

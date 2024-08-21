@@ -9,14 +9,18 @@ final List<Product> productsList = [
   Product("Carne", Quantity(1, QuantityUnit.KILOGRAM)),
   Product("Café", Quantity(200, QuantityUnit.MILLILITER)),
   Product("Arroz", Quantity(2, QuantityUnit.KILOGRAM)),
-  // Product("Leite", 4, "L"),
-  // Product("Maçã", 6, "Unidade(s)"),
-  // Product("Queijo", 250, "g"),
-  // Product("Ovos", 12, "Unidade(s)"),
-  // Product("Iogurte", 500, "ml"),
-  // Product("Tomate", 5, "Unidade(s)"),
-  // Product("Açúcar", 1, "Kg"),
-  // Product("Feijão", 500, "g"),
+  Product("Macarrão", Quantity(500, QuantityUnit.GRAM)),
+  Product("Leite", Quantity(4, QuantityUnit.LITER)),
+  Product("Açúcar", Quantity(2, QuantityUnit.KILOGRAM)),
+  Product("Banana", Quantity(12, QuantityUnit.UNIT)),
+  Product("Tomate", Quantity(8, QuantityUnit.UNIT)),
+  Product("Queijo", Quantity(500, QuantityUnit.GRAM)),
+  Product("Maçã", Quantity(10, QuantityUnit.UNIT)),
+  Product("Milho", Quantity(500, QuantityUnit.GRAM)),
+  Product("Ervilha", Quantity(500, QuantityUnit.GRAM)),
+  Product("Massa de lasanha", Quantity(500, QuantityUnit.GRAM)),
+  Product("Presunto", Quantity(500, QuantityUnit.GRAM)),
+  Product("Queijo ralado", Quantity(500, QuantityUnit.GRAM)),
 ];
 
 final List<Product> productsList2 = [
@@ -24,13 +28,11 @@ final List<Product> productsList2 = [
   Product("Macarrão", Quantity(500, QuantityUnit.GRAM)),
   Product("Café", Quantity(200, QuantityUnit.MILLILITER)),
   Product("Arroz", Quantity(2, QuantityUnit.KILOGRAM)),
-  // Product("Feijão", 3, "Kg"),
-  // Product("Leite", 4, "L"),
-  // Product("Açúcar", 2, "Kg"),
-  // Product("Banana", 12, "Unidade(s)"),
-  // Product("Tomate", 8, "Unidade(s)"),
-  // Product("Queijo", 500, "g"),
-  // Product("Maçã", 10, "Unidade(s)"),
+  Product("Leite", Quantity(4, QuantityUnit.LITER)),
+  Product("Açúcar", Quantity(2, QuantityUnit.KILOGRAM)),
+  Product("Banana", Quantity(12, QuantityUnit.UNIT)),
+  Product("Tomate", Quantity(8, QuantityUnit.UNIT)),
+  Product("Queijo", Quantity(500, QuantityUnit.GRAM)),
 ];
 
 //dart project
@@ -39,7 +41,7 @@ final List<Recipe> recipesList = [
   Recipe(
     "Lasanha",
     "assets/images/lasanha.jpg",
-    [productsList[0], productsList2[0]],
+    [productsList[13], productsList[14], productsList[15]],
     [
       "Cozinhe a massa segundo as instruções do fabricante, despeje em um refratário com água gelada para não grudar e reserve",
       "Refogue o alho, a cebola, a carne moída, o molho de tomate, deixe cozinhar por 3 minutos e reserve",
@@ -51,7 +53,11 @@ final List<Recipe> recipesList = [
   Recipe(
   "Macarronada",
   "assets/images/macarronada.jpg",
-  [productsList[1], productsList2[1], productsList[0]],
+  [productsList[4],
+    productsList[1],
+    productsList[8],
+    productsList[9],
+    productsList[11]],
     [
       "Em uma panela, leve a carne moída temperada ao fogo e adicione o milho verde e a ervilha.",
       "Misture tudo e deixe cozinhar por 30 minutos.",
@@ -60,10 +66,17 @@ final List<Recipe> recipesList = [
     ],
     DurationTime(30, TimeUnit.MINUTES)
     ),
-  // Recipe("Bife Acebolado", "assets/images/bife acebolado.jpg",
-  //     [productsList[2], productsList2[2], productsList[3]],
-  // ),
-  // Recipe("Pão de queijo", "assets/images/pao de queijo.jpg",
-  //   [productsList[5], productsList2[4], productsList[1]],
-  // ),
+  Recipe(
+    "Bolo de Maçã",
+    "assets/images/bolo_de_maca.jpg",
+    [productsList[10], productsList[5], productsList[6]],
+    [
+      "Bata no liquidificador os ovos, o óleo, o açúcar e as maçãs.",
+      "Em uma tigela, misture a farinha de trigo e o fermento.",
+      "Despeje a mistura do liquidificador na tigela e misture bem.",
+      "Coloque em uma forma untada e leve ao forno por 40 minutos."
+    ],
+    DurationTime(1, TimeUnit.HOURS)
+  ),
+
 ];

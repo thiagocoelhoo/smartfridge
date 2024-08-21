@@ -47,7 +47,7 @@ class _RecipesPage extends State<RecipesPage> {
             children: [
               const Text("Recomendados", style: TextStyle(fontSize: 20)),
               ...widget.recipes.map((Recipe r) {
-                return _recipeCard(r.urlImage, r.name, "${r.ingredients.length} ingredients // ${ r.duration}");
+                return _recipeCard(r);
               }).toList(),
             ],
           ),
@@ -56,23 +56,24 @@ class _RecipesPage extends State<RecipesPage> {
     );
   }
 
-  Widget _recipeCard(String imagePath, String title, String subtitle) {
+  Widget _recipeCard(Recipe recipe) {
     return GestureDetector(
       child: Card(
         child: ListTile(
-            title: Text(title),
-            subtitle: Text(subtitle),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => RecipeDetailsPage(recipe)),
+            );
+          },
+            title: Text(recipe.name),
+            subtitle: Text("${recipe.ingredients.length} ingredients // ${recipe.duration}"),
             trailing: IconButton(
               icon: const Icon(Icons.chevron_right),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const RecipeDetailsPage()),
-                );
               },
             ),
-            leading: Image.asset(imagePath, width: 120, fit: BoxFit.cover)),
+            leading: Image.asset(recipe.urlImage, width: 120, fit: BoxFit.cover)),
       ),
     );
   }
