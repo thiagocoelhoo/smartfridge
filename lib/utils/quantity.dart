@@ -1,12 +1,14 @@
+import 'package:smartfridge/utils/utils.dart';
+
 enum QuantityUnit {
-  UNIT,
-  GRAM,
-  KILOGRAM, // 1 kilogram = 1000 grams
-  TEASPOON, // 1 teaspoon = 5 grams
-  TABLESPOON, // 1 tablespoon = 15 grams
-  CUP, // 1 cup = 240 grams
-  MILLILITER, // 1 milliliter = 1 gram
-  LITER, // 1 liter = 1000 milliliters
+  unit,
+  gram,
+  kilogram, // 1 kilogram = 1000 grams
+  teaspoon, // 1 teaspoon = 5 grams
+  tablespoon, // 1 tablespoon = 15 grams
+  cup, // 1 cup = 240 grams
+  milliliter, // 1 milliliter = 1 gram
+  liter, // 1 liter = 1000 milliliters
 }
 
 class Quantity {
@@ -15,32 +17,25 @@ class Quantity {
 
   Quantity(this.value, this.unit);
 
-  _singularOrPlural(double value, String unit) {
-    if (value < 2) {
-      return "${value} ${unit}";
-    }
-    return '${value} ${unit}s';
-  }
-
   @override
   String toString() {
     switch (unit) {
-      case QuantityUnit.UNIT:
-        return _singularOrPlural(this.value, 'unidade');
-      case QuantityUnit.GRAM:
-        return _singularOrPlural(this.value, 'grama');
-      case QuantityUnit.KILOGRAM:
-        return _singularOrPlural(this.value, 'quilograma');
-      case QuantityUnit.TEASPOON:
-        return _singularOrPlural(this.value, 'colher de chá');
-      case QuantityUnit.TABLESPOON:
-        return _singularOrPlural(this.value, 'colher de sopa');
-      case QuantityUnit.CUP:
-        return _singularOrPlural(this.value, 'xícara');
-      case QuantityUnit.MILLILITER:
-        return _singularOrPlural(this.value, 'mililitro');
-      case QuantityUnit.LITER:
-        return _singularOrPlural(this.value, 'litro');
+      case QuantityUnit.unit:
+        return singularOrPlural(value, 'unidade');
+      case QuantityUnit.gram:
+        return singularOrPlural(value, 'grama');
+      case QuantityUnit.kilogram:
+        return singularOrPlural(value, 'quilograma');
+      case QuantityUnit.teaspoon:
+        return singularOrPlural(value, 'colher de chá');
+      case QuantityUnit.tablespoon:
+        return singularOrPlural(value, 'colher de sopa');
+      case QuantityUnit.cup:
+        return singularOrPlural(value, 'xícara');
+      case QuantityUnit.milliliter:
+        return singularOrPlural(value, 'mililitro');
+      case QuantityUnit.liter:
+        return singularOrPlural(value, 'litro');
       default:
         return 'unidade(s)';
     }

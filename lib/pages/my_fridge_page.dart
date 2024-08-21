@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:smartfridge/pages/add_items_fridge_page.dart';
 import 'package:smartfridge/services/test_values.dart';
+import 'package:smartfridge/widgets/add_button.dart';
 
 import '../models/product.dart';
 
 class MyFridgePage extends StatefulWidget {
-  List<Product> products = productsList;
+  final List<Product> products = productsList;
 
   MyFridgePage({super.key});
 
@@ -38,56 +39,51 @@ class _MyHomePageState extends State<MyFridgePage> {
                 const SizedBox(height: 16.0),
                 Expanded(
                     child: ListView(
-                  children: widget.products.map((Product p) {
-                    return Card(
-                      color: Colors.transparent,
-                      elevation: 0,
-                      margin: const EdgeInsets.all(2),
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: Colors.white12,
-                              width: 1.0,
-                            ),
-                          ),
-                        ),
-                        padding: const EdgeInsets.all(16.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                const Icon(Icons.fastfood),
-                                const SizedBox(width: 16),
-                                Text(
-                                  p.name,
-                                  style: const TextStyle(fontSize: 20),
+                      children: widget.products.map((Product p) {
+                        return Card(
+                          color: Colors.transparent,
+                          elevation: 0,
+                          margin: const EdgeInsets.all(2),
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: Colors.white12,
+                                  width: 1.0,
                                 ),
+                              ),
+                            ),
+                            padding: const EdgeInsets.all(16.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    const Icon(Icons.fastfood),
+                                    const SizedBox(width: 16),
+                                    Text(
+                                      p.name,
+                                      style: const TextStyle(fontSize: 20),
+                                    ),
+                                  ],
+                                ),
+                                Text("${p.amount}"),
                               ],
                             ),
-                            Text("${p.amount}"),
-                          ],
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                ))
+                          ),
+                        );
+                      }).toList(),
+                    ))
               ],
             )),
       ),
-      floatingActionButton: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: FloatingActionButton.extended(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const AddItemsFridgePage()),
-            );
-          },
-          icon: const Icon(Icons.add),
-          label: const Text("Add"),
-        ),
+      floatingActionButton: AddButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AddItemsFridgePage()),
+          );
+        },
       ),
     );
   }

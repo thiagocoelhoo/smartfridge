@@ -1,34 +1,29 @@
+import 'package:smartfridge/utils/utils.dart';
+
 enum TimeUnit {
-  SECONDS,
-  MINUTES,
-  HOURS,
-  DAYS,
+  seconds,
+  minutes,
+  hours,
+  days,
 }
 
 class DurationTime {
-  final int value;
+  final double value;
   final TimeUnit unit;
 
   DurationTime(this.value, this.unit);
 
-  _singularOrPlural(int value, String unit) {
-    if (value < 2) {
-      return "${value} ${unit}";
-    }
-    return '${value} ${unit}s';
-  }
-
   @override
   String toString() {
     switch (unit) {
-      case TimeUnit.SECONDS:
-        return _singularOrPlural(this.value, 'segundo');
-      case TimeUnit.MINUTES:
-        return _singularOrPlural(this.value, 'minuto');
-      case TimeUnit.HOURS:
-        return _singularOrPlural(this.value, 'hora');
-      case TimeUnit.DAYS:
-        return _singularOrPlural(this.value, 'dia');
+      case TimeUnit.seconds:
+        return singularOrPlural(value, 'segundo');
+      case TimeUnit.minutes:
+        return singularOrPlural(value, 'minuto');
+      case TimeUnit.hours:
+        return singularOrPlural(value, 'hora');
+      case TimeUnit.days:
+        return singularOrPlural(value, 'dia');
       default:
         return 'unidade(s)';
     }

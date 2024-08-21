@@ -4,7 +4,6 @@ import 'package:smartfridge/services/test_values.dart';
 import 'package:smartfridge/utils/quantity.dart';
 
 import '../models/product.dart';
-import '../utils/utils.dart';
 
 class ShoppingListPage extends StatefulWidget {
   const ShoppingListPage({super.key});
@@ -51,15 +50,12 @@ class _ShoppingListPage extends State<ShoppingListPage> {
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: Theme.of(context).colorScheme.onTertiaryFixedVariant,
         foregroundColor: Colors.white,
-        onPressed: () {
-
-        },
+        onPressed: () {},
         icon: const Icon(Icons.add),
         label: const Text("Add"),
       ),
     );
   }
-
 }
 
 void _showProductModal(BuildContext context, Product product) {
@@ -98,9 +94,10 @@ void _showProductModal(BuildContext context, Product product) {
                             ],
                             onChanged: (value) {
                               product.amount = Quantity(
-                                  double.tryParse(value) ?? product.amount.value,
-                                  product.amount.unit
-                              );                         },
+                                  double.tryParse(value) ??
+                                      product.amount.value,
+                                  product.amount.unit);
+                            },
                             decoration:
                                 const InputDecoration(labelText: "Quantidade"),
                           ),
@@ -109,21 +106,23 @@ void _showProductModal(BuildContext context, Product product) {
                         Expanded(
                           flex: 1,
                           child: DropdownButton<String>(
-                            value: unitOptions.contains(product.amount.unit.toString().split('.').last)
+                            value: unitOptions.contains(product.amount.unit
+                                    .toString()
+                                    .split('.')
+                                    .last)
                                 ? product.amount.unit.toString().split('.').last
                                 : null,
                             onChanged: (newValue) {
                               if (newValue != null) {
                                 setState(() {
-                                  try {
-                                    product.amount.unit = QuantityUnit.values.firstWhere(
-                                          (unit) => unit.toString().split('.').last == newValue,
-                                      orElse: () => QuantityUnit.UNIT, // Provide a default value
-                                    );
-                                  } catch (e) {
-                                    // Handle the error, e.g., show a message to the user
-                                    print('Error: $e');
-                                  }
+                                  product.amount.unit =
+                                      QuantityUnit.values.firstWhere(
+                                    (unit) =>
+                                        unit.toString().split('.').last ==
+                                        newValue,
+                                    orElse: () => QuantityUnit
+                                        .unit, // Provide a default value
+                                  );
                                 });
                               }
                             },

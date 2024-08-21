@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:smartfridge/utils.dart';
 import 'package:smartfridge/utils/quantity.dart';
 
 class AddItemsFridgePage extends StatefulWidget {
   const AddItemsFridgePage({super.key});
 
   @override
-  _AddItemsFridgePageState createState() => _AddItemsFridgePageState();
+  AddItemsFridgePageState createState() => AddItemsFridgePageState();
 }
 
-class _AddItemsFridgePageState extends State<AddItemsFridgePage> {
+class AddItemsFridgePageState extends State<AddItemsFridgePage> {
   final TextEditingController _dateController = TextEditingController();
   final List<String> items = Quantity.getUnits();
   String _selectedUnit = Quantity.getUnits()[0];

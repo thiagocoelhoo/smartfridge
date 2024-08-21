@@ -5,7 +5,7 @@ import 'package:smartfridge/services/test_values.dart';
 import 'package:smartfridge/widgets/carousel.dart';
 
 class RecipesPage extends StatefulWidget {
-  List<Recipe> recipes = recipesList;
+  final List<Recipe> recipes = recipesList;
 
   RecipesPage({super.key});
 
@@ -40,7 +40,7 @@ class _RecipesPage extends State<RecipesPage> {
             images: [
               ...widget.recipes.map((Recipe r) {
                 return Image.asset(r.urlImage);
-              }).toList(),
+              }),
             ],
             height: 400,
           ),

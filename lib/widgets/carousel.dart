@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class Carousel extends StatefulWidget {
-  int imageIndex = 0;
-  List<Image> images;
-  int height;
+  final int imageIndex = 0;
+  final List<Image> images;
+  final int height;
 
-  Carousel({super.key, required this.images, this.height = 300});
+  const Carousel({super.key, required this.images, this.height = 300});
 
   @override
   State<Carousel> createState() => _Carousel();
@@ -25,8 +25,8 @@ class _Carousel extends State<Carousel> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(22),
               child: Image(
-                image: widget.images[index].image,
-                fit: BoxFit.cover
+                  image: widget.images[index].image,
+                  fit: BoxFit.cover
               ),
             ),
           );
