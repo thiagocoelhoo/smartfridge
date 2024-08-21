@@ -6,7 +6,6 @@ import 'package:smartfridge/pages/shopping_list_page.dart';
 class SmartFridgeApp extends StatelessWidget {
   const SmartFridgeApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -22,7 +21,7 @@ class SmartFridgeApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const HomePage(title: 'Smart Fridge', ),
+      home: const HomePage(title: 'Smart Fridge'),
     );
   }
 }
@@ -37,8 +36,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var pages = <Widget>[
-    MyFridgePage(),
+  final List<Widget> pages = [
+    const MyFridgePage(),
     RecipesPage(),
     const ShoppingListPage(),
   ];
@@ -48,37 +47,29 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _body(),
-      bottomNavigationBar: _navBar(),
+      body: pages[currentPageIndex],
+      bottomNavigationBar: NavigationBar(
+        onDestinationSelected: (int index) {
+          setState(() {
+            currentPageIndex = index;
+          });
+        },
+        selectedIndex: currentPageIndex,
+        destinations: const <NavigationDestination>[
+          NavigationDestination(
+              icon: Icon(Icons.home_filled),
+              label: "Fridge"
+          ),
+          NavigationDestination(
+              icon: Icon(Icons.library_books),
+              label: "Recipes"
+          ),
+          NavigationDestination(
+              icon: Icon(Icons.shopping_cart),
+              label: "Shopping list"
+          )
+        ],
+      ),
     );
-  }
-
-  NavigationBar _navBar() {
-    return NavigationBar(
-      onDestinationSelected: (int index) {
-        setState(() {
-          currentPageIndex = index;
-        });
-      },
-      selectedIndex: currentPageIndex,
-      destinations: const <NavigationDestination>[
-        NavigationDestination(
-            icon: Icon(Icons.home_filled),
-            label: "Fridge"
-        ),
-        NavigationDestination(
-            icon: Icon(Icons.library_books),
-            label:  "Recipes"
-        ),
-        NavigationDestination(
-            icon: Icon(Icons.shopping_cart),
-            label:  "Shopping list"
-        )
-      ],
-    );
-  }
-
-  Widget _body() {
-    return pages[currentPageIndex];
   }
 }
