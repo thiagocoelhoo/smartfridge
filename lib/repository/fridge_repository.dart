@@ -37,6 +37,24 @@ class FridgeRepository extends ChangeNotifier {
     }
   }
 
+  bool containsEnough(Product product) {
+    final index = _products.indexWhere((element) => element.name == product.name);
+    if (index == -1) {
+      return false;
+    }
+    return _products[index].amount.value >= product.amount.value;
+  }
+
+  int hasInTheFridge(List<Product> products) {
+    int count = 0;
+    for (final product in products) {
+      if (containsEnough(product)) {
+        count++;
+      }
+    }
+    return count;
+  }
+
   void clear() {
     _products.clear();
     notifyListeners();
