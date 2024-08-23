@@ -7,7 +7,7 @@ import 'package:smartfridge/repository/recipes_repository.dart';
 import 'package:smartfridge/widgets/carousel.dart';
 
 class RecipesPage extends StatefulWidget {
-  RecipesPage({super.key});
+  const RecipesPage({super.key});
 
   @override
   State<RecipesPage> createState() => _RecipesPage();

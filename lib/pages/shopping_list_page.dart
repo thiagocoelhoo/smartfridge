@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:smartfridge/services/test_values.dart';
+import 'package:provider/provider.dart';
+import 'package:smartfridge/repository/shopping_repository.dart';
 import 'package:smartfridge/utils/quantity.dart';
 
 import '../models/product.dart';
@@ -12,7 +13,6 @@ class ShoppingListPage extends StatefulWidget {
   State<ShoppingListPage> createState() => _ShoppingListPage();
 }
 
-final List<Product> products = productsList2;
 final List<String> unitOptions = Quantity.getUnits();
 
 class _ShoppingListPage extends State<ShoppingListPage> {
@@ -24,26 +24,30 @@ class _ShoppingListPage extends State<ShoppingListPage> {
         centerTitle: true,
         title: const Text("Shopping list"),
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
-        itemCount: products.length,
-        itemBuilder: (context, index) {
-          final product = products[index];
-          return Card(
-            child: ListTile(
-              title: Text(product.name),
-              subtitle: Text("Quantidade: ${product.amount}"),
-              trailing: IconButton(
-                icon: const Icon(Icons.attach_money),
-                color: Colors.green,
-                onPressed: () {
-                  _showConfirmationDialog(context, product);
-                },
-              ),
-              onTap: () {
-                _showProductModal(context, product);
-              },
-            ),
+      body: Consumer<ShoppingRepository>(
+        builder: (context, shoppingRepository, child) {
+          return ListView.builder(
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
+            itemCount: shoppingRepository.products.length,
+            itemBuilder: (context, index) {
+              final product = shoppingRepository.products[index];
+              return Card(
+                child: ListTile(
+                  title: Text(product.name),
+                  subtitle: Text("Quantidade: ${product.amount}"),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.attach_money),
+                    color: Colors.green,
+                    onPressed: () {
+                      _showConfirmationDialog(context, product);
+                    },
+                  ),
+                  onTap: () {
+                    _showProductModal(context, product);
+                  },
+                ),
+              );
+            },
           );
         },
       ),
@@ -121,7 +125,7 @@ void _showProductModal(BuildContext context, Product product) {
                                         unit.toString().split('.').last ==
                                         newValue,
                                     orElse: () => QuantityUnit
-                                        .unit, // Provide a default value
+                                        .unit,
                                   );
                                 });
                               }
@@ -181,7 +185,7 @@ void _showConfirmationDialog(BuildContext context, Product product) {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pop(context); // Close the dialog
+              Navigator.pop(context);
             },
             child: const Text("OK"),
           ),
