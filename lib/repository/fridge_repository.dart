@@ -13,9 +13,8 @@ class FridgeRepository extends ChangeNotifier {
   List<Product> get products => List.unmodifiable(_products);
 
   void addProduct(Product product) {
-    if (_products.contains(product)) {
-      final index =
-          _products.indexWhere((element) => element.name == product.name);
+    final index = _products.indexWhere((element) => element.name == product.name);
+    if (index != -1) {
       _products[index].amount.value += product.amount.value;
     } else {
       _products.add(product);
@@ -31,9 +30,8 @@ class FridgeRepository extends ChangeNotifier {
   }
 
   void updateProduct(Product product) {
-    if (_products.contains(product)) {
-      final index =
-          _products.indexWhere((element) => element.name == product.name);
+    final index = _products.indexWhere((element) => element.name == product.name);
+    if (index != -1) {
       _products[index] = product;
       notifyListeners();
     }
