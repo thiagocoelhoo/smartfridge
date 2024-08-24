@@ -5,7 +5,7 @@ import '../models/product.dart';
 class ProductList extends StatelessWidget {
   final List<Product> products;
   final void Function(BuildContext, Product) onProductTap;
-  final void Function(BuildContext, Product) onProductAction;
+  final void Function(BuildContext, Product)? onProductAction;
   final bool showTrailing;
   final Icon? customIcon;
   final Color? iconColor;
@@ -15,7 +15,7 @@ class ProductList extends StatelessWidget {
     super.key,
     required this.products,
     required this.onProductTap,
-    required this.onProductAction,
+    this.onProductAction,
     this.showTrailing = false,
     this.customIcon,
     this.iconColor,

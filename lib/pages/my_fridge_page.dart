@@ -44,7 +44,6 @@ class _MyHomePageState extends State<MyFridgePage> {
                     return ProductList(
                       products: fridgeRepository.products,
                       onProductTap: onProductTap,
-                      onProductAction: onProductAction,
                       customIcon: const Icon(Icons.arrow_drop_down_rounded),
                       iconColor: Colors.white54,
                     );
@@ -74,10 +73,9 @@ class _MyHomePageState extends State<MyFridgePage> {
   }
 
   void onProductTap(BuildContext context, Product product) {
-    showProductModal(context, product);
-  }
-
-  void onProductAction(BuildContext context, Product product) {
-    // Implement your onProductAction logic here
+    showProductModal(context, product, (Product updatedProduct) {
+      Provider.of<FridgeRepository>(context, listen: false)
+          .updateProduct(updatedProduct);
+    });
   }
 }

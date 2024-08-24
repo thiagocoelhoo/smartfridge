@@ -30,7 +30,7 @@ class ShoppingRepository extends ChangeNotifier {
     }
   }
 
-  updateProduct(Product product) {
+  void updateProduct(Product product) {
     final index =
         _products.indexWhere((element) => element.name == product.name);
     if (index != -1) {

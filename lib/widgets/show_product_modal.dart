@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:smartfridge/models/product.dart';
 import 'package:smartfridge/utils/quantity.dart';
 
-void showProductModal(BuildContext context, Product product) {
+void showProductModal(
+    BuildContext context, Product product, void Function(Product) onSave) {
   showModalBottomSheet(
     context: context,
     builder: (context) {
@@ -97,6 +97,7 @@ void showProductModal(BuildContext context, Product product) {
                     ),
                     ElevatedButton(
                       onPressed: () {
+                        onSave(product);
                         Navigator.pop(context);
                       },
                       child: const Text("Salvar"),

@@ -5,7 +5,6 @@ import 'package:smartfridge/repository/shopping_repository.dart';
 import 'package:smartfridge/utils/quantity.dart';
 import 'package:smartfridge/models/product.dart';
 import 'package:smartfridge/widgets/product_list.dart';
-
 import 'package:smartfridge/widgets/show_product_modal.dart';
 
 class ShoppingListPage extends StatefulWidget {
@@ -31,7 +30,7 @@ class _ShoppingListPage extends State<ShoppingListPage> {
           return ProductList(
             products: shoppingRepository.products,
             showTrailing: true,
-            onProductTap: showProductModal,
+            onProductTap: onProductTap,
             onProductAction: _showConfirmationDialog,
           );
         },
@@ -45,6 +44,13 @@ class _ShoppingListPage extends State<ShoppingListPage> {
       ),
     );
   }
+}
+
+void onProductTap(BuildContext context, Product product) {
+  showProductModal(context, product, (Product updatedProduct) {
+    Provider.of<ShoppingRepository>(context, listen: false)
+        .updateProduct(updatedProduct);
+  });
 }
 
 void _showConfirmationDialog(BuildContext context, Product product) {
