@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfridge/repository/fridge_repository.dart';
 import 'package:smartfridge/repository/shopping_repository.dart';
 import 'package:smartfridge/utils/quantity.dart';
+import 'package:smartfridge/models/product.dart';
+import 'package:smartfridge/widgets/product_list.dart';
 
-import '../models/product.dart';
+import 'package:smartfridge/widgets/show_product_modal.dart';
 
 class ShoppingListPage extends StatefulWidget {
   const ShoppingListPage({super.key});
@@ -27,28 +28,11 @@ class _ShoppingListPage extends State<ShoppingListPage> {
       ),
       body: Consumer<ShoppingRepository>(
         builder: (context, shoppingRepository, child) {
-          return ListView.builder(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
-            itemCount: shoppingRepository.products.length,
-            itemBuilder: (context, index) {
-              final product = shoppingRepository.products[index];
-              return Card(
-                child: ListTile(
-                  title: Text(product.name),
-                  subtitle: Text("Quantidade: ${product.amount}"),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.attach_money),
-                    color: Colors.green,
-                    onPressed: () {
-                      _showConfirmationDialog(context, product);
-                    },
-                  ),
-                  onTap: () {
-                    _showProductModal(context, product);
-                  },
-                ),
-              );
-            },
+          return ProductList(
+            products: shoppingRepository.products,
+            showTrailing: true,
+            onProductTap: showProductModal,
+            onProductAction: _showConfirmationDialog,
           );
         },
       ),
@@ -63,139 +47,31 @@ class _ShoppingListPage extends State<ShoppingListPage> {
   }
 }
 
-void _showProductModal(BuildContext context, Product product) {
-  showModalBottomSheet(
-    context: context,
-    builder: (context) {
-      return StatefulBuilder(
-        builder: (BuildContext context, StateSetter setState) {
-          return Container(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  children: [
-                    const Center(
-                      child: Text("Produto"),
-                    ),
-                    const SizedBox(height: 32),
-                    TextFormField(
-                      initialValue: product.name,
-                      autocorrect: true,
-                      decoration: const InputDecoration(labelText: "Nome"),
-                    ),
-                    const SizedBox(height: 32),
-                    Row(
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: TextFormField(
-                            initialValue: product.amount.value.toString(),
-                            keyboardType: TextInputType.number,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly
-                            ],
-                            onChanged: (value) {
-                              product.amount = Quantity(
-                                  double.tryParse(value) ??
-                                      product.amount.value,
-                                  product.amount.unit);
-                            },
-                            decoration:
-                                const InputDecoration(labelText: "Quantidade"),
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          flex: 1,
-                          child: DropdownButton<String>(
-                            value: unitOptions.contains(product.amount.unit
-                                    .toString()
-                                    .split('.')
-                                    .last)
-                                ? product.amount.unit.toString().split('.').last
-                                : null,
-                            onChanged: (newValue) {
-                              if (newValue != null) {
-                                setState(() {
-                                  product.amount.unit =
-                                      QuantityUnit.values.firstWhere(
-                                    (unit) =>
-                                        unit.toString().split('.').last ==
-                                        newValue,
-                                    orElse: () => QuantityUnit.unit,
-                                  );
-                                });
-                              }
-                            },
-                            items: unitOptions.map((unit) {
-                              return DropdownMenuItem<String>(
-                                value: unit,
-                                child: Text(unit),
-                              );
-                            }).toList(),
-                            isExpanded: true,
-                            underline: Container(),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text("Cancelar"),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text("Salvar"),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          );
-        },
-      );
-    },
-  );
-}
-
 void _showConfirmationDialog(BuildContext context, Product product) {
   showDialog(
     context: context,
     builder: (context) {
       return Consumer2<FridgeRepository, ShoppingRepository>(
           builder: (context, fridgeRepository, shoppingRepository, child) {
-        return AlertDialog(
-          title: const Center(
-            child: Text("Item Comprado!"),
-          ),
-          content: Text(
-              "${product.amount} de ${product.name} ${product.amount.value > 1 ? 'foram' : 'foi'} movidos para o estoque."),
-          actionsAlignment: MainAxisAlignment.center,
-          actions: [
-            TextButton(
-              onPressed: () {
-                fridgeRepository.addProduct(product);
-                shoppingRepository.removeProduct(product);
-                Navigator.pop(context);
-              },
-              child: const Text("OK"),
-            ),
-          ],
-        );
-      });
+            return AlertDialog(
+              title: const Center(
+                child: Text("Item Comprado!"),
+              ),
+              content: Text(
+                  "${product.amount} de ${product.name} ${product.amount.value > 1 ? 'foram' : 'foi'} movidos para o estoque."),
+              actionsAlignment: MainAxisAlignment.center,
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    fridgeRepository.addProduct(product);
+                    shoppingRepository.removeProduct(product);
+                    Navigator.pop(context);
+                  },
+                  child: const Text("OK"),
+                ),
+              ],
+            );
+          });
     },
   );
 }

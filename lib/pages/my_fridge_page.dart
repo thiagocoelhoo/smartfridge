@@ -3,7 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:smartfridge/pages/add_items_fridge_page.dart';
 import 'package:smartfridge/repository/fridge_repository.dart';
 import 'package:smartfridge/widgets/add_button.dart';
-import 'package:smartfridge/widgets/product_card.dart';
+import 'package:smartfridge/widgets/product_list.dart';
+import 'package:smartfridge/widgets/show_product_modal.dart';
 
 import '../models/product.dart';
 
@@ -40,11 +41,12 @@ class _MyHomePageState extends State<MyFridgePage> {
               Expanded(
                 child: Consumer<FridgeRepository>(
                   builder: (context, fridgeRepository, child) {
-                    return ListView(
-                      padding: const EdgeInsets.only(bottom: 80.0),
-                      children: fridgeRepository.products.map<Widget>((Product p) {
-                        return ProductCard(product: p);
-                      }).toList(),
+                    return ProductList(
+                      products: fridgeRepository.products,
+                      onProductTap: onProductTap,
+                      onProductAction: onProductAction,
+                      customIcon: const Icon(Icons.arrow_drop_down_rounded),
+                      iconColor: Colors.white54,
                     );
                   },
                 ),
@@ -69,5 +71,13 @@ class _MyHomePageState extends State<MyFridgePage> {
       backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
       title: const Center(child: Text("My fridge")),
     );
+  }
+
+  void onProductTap(BuildContext context, Product product) {
+    showProductModal(context, product);
+  }
+
+  void onProductAction(BuildContext context, Product product) {
+    // Implement your onProductAction logic here
   }
 }
