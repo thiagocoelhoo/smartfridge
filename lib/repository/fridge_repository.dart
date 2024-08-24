@@ -15,7 +15,7 @@ class FridgeRepository extends ChangeNotifier {
   void addProduct(Product product) {
     final index = _products.indexWhere((element) => element.name == product.name);
     if (index != -1) {
-      _products[index].amount.value += product.amount.value;
+      _products[index].amount.add(product.amount);
     } else {
       _products.add(product);
     }

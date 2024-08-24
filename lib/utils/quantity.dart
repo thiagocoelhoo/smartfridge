@@ -45,4 +45,180 @@ class Quantity {
   static List<String> getUnits() {
     return QuantityUnit.values.map((unit) => unit.toString().split('.').last).toList();
   }
+
+  void add(Quantity other) {
+    double convertedValue = other.convertTo(unit);
+    value += convertedValue;
+  }
+
+  // Método de conversão existente
+  double convertTo(QuantityUnit newUnit) {
+    if (unit == newUnit) {
+      return value;
+    }
+
+    double newValue = value;
+
+    switch (unit) {
+      case QuantityUnit.gram:
+        newValue = _convertGrams(newValue, newUnit);
+        break;
+      case QuantityUnit.kilogram:
+        newValue = _convertKilograms(newValue, newUnit);
+        break;
+      case QuantityUnit.teaspoon:
+        newValue = _convertTeaspoons(newValue, newUnit);
+        break;
+      case QuantityUnit.tablespoon:
+        newValue = _convertTablespoons(newValue, newUnit);
+        break;
+      case QuantityUnit.cup:
+        newValue = _convertCups(newValue, newUnit);
+        break;
+      case QuantityUnit.milliliter:
+        newValue = _convertMilliliters(newValue, newUnit);
+        break;
+      case QuantityUnit.liter:
+        newValue = _convertLiters(newValue, newUnit);
+        break;
+      default:
+        break;
+    }
+
+    return newValue;
+  }
+
+  // Métodos de conversão existentes
+  double _convertGrams(double value, QuantityUnit newUnit) {
+    switch (newUnit) {
+      case QuantityUnit.kilogram:
+        return value / 1000;
+      case QuantityUnit.teaspoon:
+        return value / 5;
+      case QuantityUnit.tablespoon:
+        return value / 15;
+      case QuantityUnit.cup:
+        return value / 240;
+      case QuantityUnit.milliliter:
+        return value;
+      case QuantityUnit.liter:
+        return value / 1000;
+      default:
+        return value;
+    }
+  }
+
+  double _convertKilograms(double value, QuantityUnit newUnit) {
+    switch (newUnit) {
+      case QuantityUnit.gram:
+        return value * 1000;
+      case QuantityUnit.teaspoon:
+        return value * 1000 / 5;
+      case QuantityUnit.tablespoon:
+        return value * 1000 / 15;
+      case QuantityUnit.cup:
+        return value * 1000 / 240;
+      case QuantityUnit.milliliter:
+        return value * 1000;
+      case QuantityUnit.liter:
+        return value;
+      default:
+        return value;
+    }
+  }
+
+  double _convertTeaspoons(double value, QuantityUnit newUnit) {
+    switch (newUnit) {
+      case QuantityUnit.gram:
+        return value * 5;
+      case QuantityUnit.kilogram:
+        return value * 5 / 1000;
+      case QuantityUnit.tablespoon:
+        return value / 3;
+      case QuantityUnit.cup:
+        return value / 48;
+      case QuantityUnit.milliliter:
+        return value * 5;
+      case QuantityUnit.liter:
+        return value * 5 / 1000;
+      default:
+        return value;
+    }
+  }
+
+  double _convertTablespoons(double value, QuantityUnit newUnit) {
+    switch (newUnit) {
+      case QuantityUnit.gram:
+        return value * 15;
+      case QuantityUnit.kilogram:
+        return value * 15 / 1000;
+      case QuantityUnit.teaspoon:
+        return value * 3;
+      case QuantityUnit.cup:
+        return value / 16;
+      case QuantityUnit.milliliter:
+        return value * 15;
+      case QuantityUnit.liter:
+        return value * 15 / 1000;
+      default:
+        return value;
+    }
+  }
+
+  double _convertCups(double value, QuantityUnit newUnit) {
+    switch (newUnit) {
+      case QuantityUnit.gram:
+        return value * 240;
+      case QuantityUnit.kilogram:
+        return value * 240 / 1000;
+      case QuantityUnit.teaspoon:
+        return value * 48;
+      case QuantityUnit.tablespoon:
+        return value * 16;
+      case QuantityUnit.milliliter:
+        return value * 240;
+      case QuantityUnit.liter:
+        return value * 240 / 1000;
+      default:
+        return value;
+    }
+  }
+
+  double _convertMilliliters(double value, QuantityUnit newUnit) {
+    switch (newUnit) {
+      case QuantityUnit.gram:
+        return value;
+      case QuantityUnit.kilogram:
+        return value / 1000;
+      case QuantityUnit.teaspoon:
+        return value / 5;
+      case QuantityUnit.tablespoon:
+        return value / 15;
+      case QuantityUnit.cup:
+        return value / 240;
+      case QuantityUnit.liter:
+        return value / 1000;
+      default:
+        return value;
+    }
+  }
+
+  double _convertLiters(double value, QuantityUnit newUnit) {
+    switch (newUnit) {
+      case QuantityUnit.gram:
+        return value * 1000;
+      case QuantityUnit.kilogram:
+        return value;
+      case QuantityUnit.teaspoon:
+        return value * 1000 / 5;
+      case QuantityUnit.tablespoon:
+        return value * 1000 / 15;
+      case QuantityUnit.cup:
+        return value * 1000 / 240;
+      case QuantityUnit.milliliter:
+        return value * 1000;
+      default:
+        return value;
+    }
+  }
 }
