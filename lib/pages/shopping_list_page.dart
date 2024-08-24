@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:smartfridge/repository/fridge_repository.dart';
 import 'package:smartfridge/repository/shopping_repository.dart';
 import 'package:smartfridge/utils/quantity.dart';
 
@@ -124,8 +125,7 @@ void _showProductModal(BuildContext context, Product product) {
                                     (unit) =>
                                         unit.toString().split('.').last ==
                                         newValue,
-                                    orElse: () => QuantityUnit
-                                        .unit,
+                                    orElse: () => QuantityUnit.unit,
                                   );
                                 });
                               }
@@ -175,22 +175,27 @@ void _showConfirmationDialog(BuildContext context, Product product) {
   showDialog(
     context: context,
     builder: (context) {
-      return AlertDialog(
-        title: const Center(
-          child: Text("Item Comprado!"),
-        ),
-        content: Text(
-            "${product.amount} de ${product.name} ${product.amount.value > 1 ? 'foram' : 'foi'} movidos para o estoque."),
-        actionsAlignment: MainAxisAlignment.center,
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text("OK"),
+      return Consumer2<FridgeRepository, ShoppingRepository>(
+          builder: (context, fridgeRepository, shoppingRepository, child) {
+        return AlertDialog(
+          title: const Center(
+            child: Text("Item Comprado!"),
           ),
-        ],
-      );
+          content: Text(
+              "${product.amount} de ${product.name} ${product.amount.value > 1 ? 'foram' : 'foi'} movidos para o estoque."),
+          actionsAlignment: MainAxisAlignment.center,
+          actions: [
+            TextButton(
+              onPressed: () {
+                fridgeRepository.addProduct(product);
+                shoppingRepository.removeProduct(product);
+                Navigator.pop(context);
+              },
+              child: const Text("OK"),
+            ),
+          ],
+        );
+      });
     },
   );
 }
