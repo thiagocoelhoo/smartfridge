@@ -14,6 +14,10 @@ class RecipesRepository extends ChangeNotifier {
 
   List<Recipe> get recipes => List.unmodifiable(_recipes);
 
+  List<Recipe> getRecipesByName(String name) {
+    return _recipes.where((element) => name.contains(element.name)).toList();
+  }
+
   void addRecipe(Recipe recipe) {
     _recipes.add(recipe);
     notifyListeners();

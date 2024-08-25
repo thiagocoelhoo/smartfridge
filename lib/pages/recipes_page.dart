@@ -14,6 +14,31 @@ class RecipesPage extends StatefulWidget {
 }
 
 class _RecipesPage extends State<RecipesPage> {
+  final TextEditingController _searchController = TextEditingController();
+  List<Recipe> _filteredRecipes = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController.addListener(_filterRecipes);
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _filterRecipes() {
+    final query = _searchController.text.toLowerCase();
+    setState(() {
+      _filteredRecipes = Provider.of<RecipesRepository>(context, listen: false)
+          .recipes
+          .where((recipe) => recipe.name.toLowerCase().contains(query))
+          .toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,8 +60,10 @@ class _RecipesPage extends State<RecipesPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 12, bottom: 12, right: 12, top: 4),
-                child: const SearchBar(
+                padding: const EdgeInsets.only(
+                    left: 12, bottom: 12, right: 12, top: 4),
+                child: SearchBar(
+                  controller: _searchController,
                   leading: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8.0),
                     child: Icon(Icons.filter_alt),
@@ -47,6 +74,9 @@ class _RecipesPage extends State<RecipesPage> {
                       child: Icon(Icons.search),
                     )
                   ],
+                  onChanged: (value) {
+                    _filterRecipes();
+                  },
                 ),
               ),
               Column(
@@ -62,10 +92,16 @@ class _RecipesPage extends State<RecipesPage> {
                     height: 400,
                   ),
                   const SizedBox(height: 22),
-                  const Text("Recomendados", style: TextStyle(fontSize: 20)),
-                  ...recipeRepository.recipes.map((Recipe r) {
-                    return _recipeCard(r);
-                  }),
+                  ...(_filteredRecipes.isEmpty &&
+                          _searchController.text.isNotEmpty
+                      ? [const Text("Nenhuma receita Encontrada")]
+                      : (_filteredRecipes.isEmpty
+                          ? recipeRepository.recipes.map((recipe) {
+                              return _recipeCard(recipe);
+                            }).toList()
+                          : _filteredRecipes.map((recipe) {
+                              return _recipeCard(recipe);
+                            }).toList())),
                 ],
               ),
             ],
@@ -84,13 +120,16 @@ class _RecipesPage extends State<RecipesPage> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => RecipeDetailsPage(recipe)),
+                  MaterialPageRoute(
+                      builder: (context) => RecipeDetailsPage(recipe)),
                 );
               },
               title: Text(recipe.name),
-              subtitle: Text("${fridgeRepository.hasInTheFridge(recipe.ingredients)}/${recipe.ingredients.length} ingredients // ${recipe.duration}"),
+              subtitle: Text(
+                  "${fridgeRepository.hasInTheFridge(recipe.ingredients)}/${recipe.ingredients.length} ingredients // ${recipe.duration}"),
               trailing: const Icon(Icons.chevron_right),
-              leading: Image.asset(recipe.urlImage, width: 120, fit: BoxFit.cover),
+              leading:
+                  Image.asset(recipe.urlImage, width: 120, fit: BoxFit.cover),
             );
           },
         ),
