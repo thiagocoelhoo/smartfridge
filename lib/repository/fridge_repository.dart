@@ -30,11 +30,14 @@ class FridgeRepository extends ChangeNotifier {
   }
 
   void updateProduct(Product product) {
-    final index = _products.indexWhere((element) => element.name == product.name);
+    final index = _products.indexWhere((element) => element.id == product.id);
     if (index != -1) {
       _products[index] = product;
-      notifyListeners();
+    } else {
+      // TODO: HANDLE ERROR
+      _products.add(product);
     }
+    notifyListeners();
   }
 
   bool containsEnough(Product product) {

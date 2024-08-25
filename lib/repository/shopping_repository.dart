@@ -31,11 +31,13 @@ class ShoppingRepository extends ChangeNotifier {
   }
 
   void updateProduct(Product product) {
-    final index =
-        _products.indexWhere((element) => element.name == product.name);
+    final index = _products.indexWhere((element) => element.id == product.id);
     if (index != -1) {
-      _products[index] = product;
+      _products[index].name = product.name;
+      _products[index].amount = product.amount;
       notifyListeners();
+    } else {
+      // TODO: Handle error
     }
   }
 
