@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:smartfridge/models/product.dart';
 import 'package:smartfridge/utils/quantity.dart';
 
-void showProductModal(
-    BuildContext context, Product product, void Function(Product) onSave) {
+void showProductModal(BuildContext context, Product product,
+    void Function(Product) onSave, void Function(Product) onDelete) {
   showModalBottomSheet(
     context: context,
     builder: (context) {
@@ -45,17 +45,18 @@ void showProductModal(
                                   product.amount.unit);
                             },
                             decoration:
-                            const InputDecoration(labelText: "Quantidade"),
+                                const InputDecoration(labelText: "Quantidade"),
                           ),
                         ),
                         const SizedBox(width: 16),
                         Expanded(
                           flex: 1,
                           child: DropdownButton<String>(
-                            value: Quantity.getUnits().contains(product.amount.unit
-                                .toString()
-                                .split('.')
-                                .last)
+                            value: Quantity.getUnits().contains(product
+                                    .amount.unit
+                                    .toString()
+                                    .split('.')
+                                    .last)
                                 ? product.amount.unit.toString().split('.').last
                                 : null,
                             onChanged: (newValue) {
@@ -63,11 +64,11 @@ void showProductModal(
                                 setState(() {
                                   product.amount.unit =
                                       QuantityUnit.values.firstWhere(
-                                            (unit) =>
+                                    (unit) =>
                                         unit.toString().split('.').last ==
-                                            newValue,
-                                        orElse: () => QuantityUnit.unit,
-                                      );
+                                        newValue,
+                                    orElse: () => QuantityUnit.unit,
+                                  );
                                 });
                               }
                             },
@@ -91,6 +92,7 @@ void showProductModal(
                   children: [
                     ElevatedButton(
                       onPressed: () {
+                        onDelete(product);
                         Navigator.pop(context);
                       },
                       child: const Text("Cancelar"),
@@ -103,7 +105,7 @@ void showProductModal(
                       child: const Text("Salvar"),
                     ),
                   ],
-                )
+                ),
               ],
             ),
           );

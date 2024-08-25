@@ -25,10 +25,10 @@ class _RecipeDetailsPage extends State<RecipeDetailsPage> {
   }
 
   Widget _noRecipeFound() {
-    return Center(
+    return const Center(
       child: Text(
         "Recipe not found",
-        style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.onSurface),
+        style: TextStyle(fontSize: 20, color: Colors.black12),
       ),
     );
   }
@@ -53,7 +53,8 @@ class _RecipeDetailsPage extends State<RecipeDetailsPage> {
               child: Container(
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.surfaceContainer,
-                  border: Border.all(color: Theme.of(context).colorScheme.onTertiary, width: 1.5),
+                  border: Border.all(
+                      color: const Color.fromRGBO(73, 69, 79, 1), width: 1.5),
                   borderRadius: BorderRadius.circular(22),
                 ),
                 width: double.infinity,
@@ -72,7 +73,8 @@ class _RecipeDetailsPage extends State<RecipeDetailsPage> {
               child: Container(
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.surfaceContainer,
-                    border: Border.all(color: Theme.of(context).colorScheme.onTertiary, width: 1.5),
+                    border: Border.all(
+                        color: const Color.fromRGBO(73, 69, 79, 1), width: 1.5),
                     borderRadius: BorderRadius.circular(22),
                   ),
                   width: double.infinity,

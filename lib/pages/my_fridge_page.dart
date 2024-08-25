@@ -70,8 +70,9 @@ class _MyHomePageState extends State<MyFridgePage> {
               Expanded(
                 child: Consumer<FridgeRepository>(
                   builder: (context, fridgeRepository, child) {
-                    if (_filteredProducts.isEmpty &&
-                        _searchController.text.isNotEmpty) {
+                    if (fridgeRepository.products.isEmpty ||
+                        _filteredProducts.isEmpty &&
+                            _searchController.text.isNotEmpty) {
                       return const Center(
                           child: Text("Nenhum produto encontrado"));
                     }
@@ -80,8 +81,10 @@ class _MyHomePageState extends State<MyFridgePage> {
                           ? fridgeRepository.products
                           : _filteredProducts,
                       onProductTap: onProductTap,
-                      customIcon: const Icon(Icons.arrow_drop_down_rounded),
-                      iconColor: Colors.white54,
+                      onProductAction: onProductAction,
+                      showTrailing: true,
+                      customIcon: const Icon(Icons.delete_outline_rounded),
+                      iconColor: Colors.redAccent,
                     );
                   },
                 ),
@@ -112,6 +115,14 @@ class _MyHomePageState extends State<MyFridgePage> {
     showProductModal(context, product, (Product updatedProduct) {
       Provider.of<FridgeRepository>(context, listen: false)
           .updateProduct(updatedProduct);
+    }, (Product deletedProduct) {
+      Provider.of<FridgeRepository>(context, listen: false)
+          .removeProduct(product);
     });
+  }
+
+  void onProductAction(BuildContext context, Product product) {
+    Provider.of<FridgeRepository>(context, listen: false)
+        .removeProduct(product);
   }
 }

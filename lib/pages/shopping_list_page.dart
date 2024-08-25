@@ -63,8 +63,9 @@ class _ShoppingListPage extends State<ShoppingListPage> {
             Expanded(
               child: Consumer<ShoppingRepository>(
                 builder: (context, shoppingRepository, child) {
-                  if (_filteredProducts.isEmpty &&
-                      _searchController.text.isNotEmpty) {
+                  if (shoppingRepository.products.isEmpty ||
+                      _filteredProducts.isEmpty &&
+                          _searchController.text.isNotEmpty) {
                     return const Center(
                         child: Text("Nenhum produto encontrado"));
                   }
@@ -91,6 +92,9 @@ void onProductTap(BuildContext context, Product product) {
   showProductModal(context, product, (Product updatedProduct) {
     Provider.of<ShoppingRepository>(context, listen: false)
         .updateProduct(updatedProduct);
+  }, (Product deletedProduct) {
+    Provider.of<ShoppingRepository>(context, listen: false)
+        .removeProduct(deletedProduct);
   });
 }
 
