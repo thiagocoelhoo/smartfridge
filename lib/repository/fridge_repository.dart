@@ -12,6 +12,10 @@ class FridgeRepository extends ChangeNotifier {
 
   List<Product> get products => List.unmodifiable(_products);
 
+  List<Product> getProductsByName(String name) {
+    return _products.where((element) => name.contains(element.name)).toList();
+  }
+
   void addProduct(Product product) {
     final index = _products.indexWhere((element) => element.name == product.name);
     if (index != -1) {

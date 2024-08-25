@@ -16,6 +16,31 @@ class MyFridgePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyFridgePage> {
+  final TextEditingController _searchController = TextEditingController();
+  List<Product> _filteredProducts = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController.addListener(_filterProducts);
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _filterProducts() {
+    final query = _searchController.text.toLowerCase();
+    setState(() {
+      _filteredProducts = Provider.of<FridgeRepository>(context, listen: false)
+          .products
+          .where((product) => product.name.toLowerCase().contains(query))
+          .toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,24 +50,30 @@ class _MyHomePageState extends State<MyFridgePage> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: <Widget>[
-              const SearchBar(
-                leading: Padding(
+              SearchBar(
+                controller: _searchController,
+                leading: const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8.0),
                   child: Icon(Icons.filter_alt),
                 ),
-                trailing: [
+                trailing: const [
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8.0),
                     child: Icon(Icons.search),
                   )
                 ],
+                onChanged: (value) {
+                  _filterProducts();
+                },
               ),
               const SizedBox(height: 16.0),
               Expanded(
                 child: Consumer<FridgeRepository>(
                   builder: (context, fridgeRepository, child) {
                     return ProductList(
-                      products: fridgeRepository.products,
+                      products: _filteredProducts.isEmpty
+                          ? fridgeRepository.products
+                          : _filteredProducts,
                       onProductTap: onProductTap,
                       customIcon: const Icon(Icons.arrow_drop_down_rounded),
                       iconColor: Colors.white54,
