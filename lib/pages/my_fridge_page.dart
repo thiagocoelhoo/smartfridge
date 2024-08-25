@@ -70,14 +70,20 @@ class _MyHomePageState extends State<MyFridgePage> {
               Expanded(
                 child: Consumer<FridgeRepository>(
                   builder: (context, fridgeRepository, child) {
-                    return ProductList(
-                      products: _filteredProducts.isEmpty
-                          ? fridgeRepository.products
-                          : _filteredProducts,
-                      onProductTap: onProductTap,
-                      customIcon: const Icon(Icons.arrow_drop_down_rounded),
-                      iconColor: Colors.white54,
-                    );
+                    if (_filteredProducts.isEmpty &&
+                        _searchController.text.isNotEmpty) {
+                      return const Center(
+                          child: Text("Não encontrou nenhum produto"));
+                    } else {
+                      return ProductList(
+                        products: _filteredProducts.isEmpty
+                            ? fridgeRepository.products
+                            : _filteredProducts,
+                        onProductTap: onProductTap,
+                        customIcon: const Icon(Icons.arrow_drop_down_rounded),
+                        iconColor: Colors.white54,
+                      );
+                    }
                   },
                 ),
               ),
