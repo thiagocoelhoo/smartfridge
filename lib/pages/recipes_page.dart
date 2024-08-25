@@ -34,17 +34,34 @@ class _RecipesPage extends State<RecipesPage> {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Carousel(
-                images: [
-                  ...recipeRepository.recipes.map((Recipe r) {
-                    return Image.asset(r.urlImage);
-                  }),
-                ],
-                height: 400,
+              Padding(
+                padding: const EdgeInsets.only(left: 12, bottom: 12, right: 12, top: 4),
+                child: const SearchBar(
+                  leading: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Icon(Icons.filter_alt),
+                  ),
+                  trailing: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Icon(Icons.search),
+                    )
+                  ],
+                ),
               ),
-              const SizedBox(height: 20),
               Column(
                 children: [
+                  const Text("Destaques", style: TextStyle(fontSize: 22)),
+                  const SizedBox(height: 10),
+                  Carousel(
+                    images: [
+                      ...recipeRepository.recipes.map((Recipe r) {
+                        return Image.asset(r.urlImage);
+                      }),
+                    ],
+                    height: 400,
+                  ),
+                  const SizedBox(height: 22),
                   const Text("Recomendados", style: TextStyle(fontSize: 20)),
                   ...recipeRepository.recipes.map((Recipe r) {
                     return _recipeCard(r);
