@@ -5,8 +5,9 @@ import 'package:smartfridge/repository/fridge_repository.dart';
 import 'package:smartfridge/widgets/add_button.dart';
 import 'package:smartfridge/widgets/product_list.dart';
 import 'package:smartfridge/widgets/show_product_modal.dart';
+import 'package:smartfridge/widgets/delete_confirmation_dialog.dart';
 
-import '../models/product.dart';
+import 'package:smartfridge/models/product.dart';
 
 class MyFridgePage extends StatefulWidget {
   const MyFridgePage({super.key});
@@ -122,7 +123,9 @@ class _MyHomePageState extends State<MyFridgePage> {
   }
 
   void onProductAction(BuildContext context, Product product) {
-    Provider.of<FridgeRepository>(context, listen: false)
-        .removeProduct(product);
+    DeleteConfirmationDialog(context, () {
+      Provider.of<FridgeRepository>(context, listen: false)
+          .removeProduct(product);
+    });
   }
 }
