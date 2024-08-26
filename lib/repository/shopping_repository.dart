@@ -55,8 +55,11 @@ class ShoppingRepository extends ChangeNotifier {
   void _loadInitialProducts() {
     _products.addAll([
       Product("Arroz", Quantity(1, QuantityUnit.kilogram)),
-      Product("Feijão", Quantity(1, QuantityUnit.kilogram)),
-      Product("Carne", Quantity(1, QuantityUnit.kilogram)),
+      Product("Feijão", Quantity(3, QuantityUnit.kilogram)),
+      Product("Carne", Quantity(1.5, QuantityUnit.kilogram)),
+      Product("Macarrão", Quantity(2, QuantityUnit.kilogram)),
+      Product("Óleo", Quantity(1, QuantityUnit.liter)),
+      Product("Sal", Quantity(1, QuantityUnit.kilogram)),
     ]);
   }
 }

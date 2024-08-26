@@ -90,6 +90,40 @@ class RecipesRepository extends ChangeNotifier {
           ],
           DurationTime(40, TimeUnit.minutes)
       ),
+      Recipe(
+          "Bife acebolado",
+          "assets/images/bife acebolado.jpg",
+          [
+            Product("Bife", Quantity(1, QuantityUnit.kilogram)),
+            Product("Cebola", Quantity(1, QuantityUnit.kilogram)),
+            Product("Alho", Quantity(500, QuantityUnit.gram)),
+            Product("Sal", Quantity(500, QuantityUnit.gram)),
+            Product("Pimenta", Quantity(500, QuantityUnit.gram)),
+          ],
+          [
+            "Tempere os bifes com sal, pimenta e alho.",
+            "Em uma frigideira, frite os bifes até dourar.",
+            "Adicione a cebola e deixe dourar.",
+            "Sirva quente."
+          ],
+          DurationTime(30, TimeUnit.minutes)),
+      Recipe(
+          "Pão de queijo",
+          "assets/images/pao de queijo.jpg",
+          [
+            Product("Polvilho", Quantity(500, QuantityUnit.gram)),
+            Product("Queijo", Quantity(500, QuantityUnit.gram)),
+            Product("Leite", Quantity(500, QuantityUnit.milliliter)),
+            Product("Ovo", Quantity(10, QuantityUnit.unit)),
+          ],
+          [
+            "Em uma panela, ferva o leite e o óleo.",
+            "Em uma tigela, misture o polvilho e o queijo.",
+            "Adicione o leite e o óleo fervidos e misture bem.",
+            "Adicione os ovos e misture bem.",
+            "Coloque em forminhas e leve ao forno por 30 minutos."
+          ],
+          DurationTime(30, TimeUnit.minutes))
     ]);
   }
 }
