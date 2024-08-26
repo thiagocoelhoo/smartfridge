@@ -5,6 +5,9 @@ import 'package:smartfridge/utils/quantity.dart';
 
 void showProductModal(BuildContext context, Product product,
     void Function(Product) onSave, void Function(Product) onDelete) {
+  final TextEditingController nameController =
+      TextEditingController(text: product.name);
+
   showModalBottomSheet(
     context: context,
     builder: (context) {
@@ -23,9 +26,12 @@ void showProductModal(BuildContext context, Product product,
                     ),
                     const SizedBox(height: 32),
                     TextFormField(
-                      initialValue: product.name,
+                      controller: nameController,
                       autocorrect: true,
                       decoration: const InputDecoration(labelText: "Nome"),
+                      onChanged: (value) {
+                        product.name = value;
+                      },
                     ),
                     const SizedBox(height: 32),
                     Row(
