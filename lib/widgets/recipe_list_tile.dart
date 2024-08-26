@@ -22,17 +22,10 @@ class RecipeListTile extends StatelessWidget {
           MaterialPageRoute(builder: (context) => RecipeDetailsPage(recipe)),
         );
       },
-      title: Row(
-        children: [
-          Text(recipe.name),
-          Text(
-            " (${recipe.duration.abreviation()})",
-            style: const TextStyle(fontSize: 12),
-          ),
-        ],
-      ),
+      title: Text(recipe.name, overflow: TextOverflow.ellipsis),
       subtitle: Text(
-          "${fridgeRepository.hasInTheFridge(recipe.ingredients)}/${recipe.ingredients.length} ingredients"),
+          "${fridgeRepository.hasInTheFridge(recipe.ingredients)}/${recipe.ingredients.length} ingredientes | ${recipe.duration.abreviation()}",
+          overflow: TextOverflow.ellipsis),
       trailing: const Icon(Icons.chevron_right),
       leading: Image.asset(recipe.urlImage, width: 120, fit: BoxFit.cover),
     );

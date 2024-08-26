@@ -64,7 +64,6 @@ class _RecipeDetailsPage extends State<RecipeDetailsPage> {
                   borderRadius: BorderRadius.circular(22),
                 ),
                 width: double.infinity,
-                height: 400,
                 child: Column(
                   children: widget.recipe!.ingredients.map((product) {
                     return ProductLine(
@@ -88,7 +87,6 @@ class _RecipeDetailsPage extends State<RecipeDetailsPage> {
                     borderRadius: BorderRadius.circular(22),
                   ),
                   width: double.infinity,
-                  height: 400,
                   child: Column(
                     children:
                         widget.recipe!.stepByStep.asMap().entries.map((entry) {
