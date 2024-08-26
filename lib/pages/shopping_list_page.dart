@@ -6,8 +6,8 @@ import 'package:smartfridge/models/product.dart';
 import 'package:smartfridge/widgets/add_button.dart';
 import 'package:smartfridge/widgets/product_item.dart';
 import 'package:smartfridge/widgets/show_product_modal.dart';
-
 import 'package:smartfridge/widgets/delete_confirmation_dialog.dart';
+import 'package:smartfridge/pages/add_item_page.dart';
 
 class ShoppingListPage extends StatefulWidget {
   const ShoppingListPage({super.key});
@@ -105,84 +105,91 @@ class _ShoppingListPage extends State<ShoppingListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
-        centerTitle: true,
-        title: const Text("Shopping list"),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: <Widget>[
-            SearchBar(
-              controller: _searchController,
-              leading: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                child: Icon(Icons.filter_alt),
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
+          centerTitle: true,
+          title: const Text("Shopping list"),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: <Widget>[
+              SearchBar(
+                controller: _searchController,
+                leading: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Icon(Icons.filter_alt),
+                ),
               ),
-            ),
-            Expanded(
-              child: Consumer<ShoppingRepository>(
-                builder: (context, shoppingRepository, child) {
-                  if (shoppingRepository.products.isEmpty ||
-                      _filteredProducts.isEmpty &&
-                          _searchController.text.isNotEmpty) {
-                    return const Center(
-                        child: Text("Nenhum produto encontrado"));
-                  }
-                  return ListView(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
-                    children: (_filteredProducts.isEmpty
-                            ? shoppingRepository.products
-                            : _filteredProducts)
-                        .map((product) {
-                      if (!_isSelectedNotifiers.containsKey(product)) {
-                        _isSelectedNotifiers[product] =
-                            ValueNotifier<bool>(false);
-                      }
-                      return ProductItem(
-                        product: product,
-                        isSelectedNotifier: _isSelectedNotifiers[product]!,
-                        onProductTap: onProductTap,
-                        onLeadingAction: (context, product) {},
-                        onTrailingAction: onProductAction,
-                        onChangeCheckbox: (isSelected) {
-                          _updateSelectedProducts(product, isSelected);
-                        },
-                      );
-                    }).toList(),
+              Expanded(
+                child: Consumer<ShoppingRepository>(
+                  builder: (context, shoppingRepository, child) {
+                    if (shoppingRepository.products.isEmpty ||
+                        _filteredProducts.isEmpty &&
+                            _searchController.text.isNotEmpty) {
+                      return const Center(
+                          child: Text("Nenhum produto encontrado"));
+                    }
+                    return ListView(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12, horizontal: 4),
+                      children: (_filteredProducts.isEmpty
+                              ? shoppingRepository.products
+                              : _filteredProducts)
+                          .map((product) {
+                        if (!_isSelectedNotifiers.containsKey(product)) {
+                          _isSelectedNotifiers[product] =
+                              ValueNotifier<bool>(false);
+                        }
+                        return ProductItem(
+                          product: product,
+                          isSelectedNotifier: _isSelectedNotifiers[product]!,
+                          onProductTap: onProductTap,
+                          onLeadingAction: (context, product) {},
+                          onTrailingAction: onProductAction,
+                          onChangeCheckbox: (isSelected) {
+                            _updateSelectedProducts(product, isSelected);
+                          },
+                        );
+                      }).toList(),
+                    );
+                  },
+                ),
+              ),
+              if (_selectedProducts.isNotEmpty)
+                OutlinedButton.icon(
+                  onPressed: _buySelectedProducts,
+                  icon: const Icon(Icons.shopping_cart),
+                  label: const Text("Comprar"),
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    minimumSize: const Size(200, 50),
+                  ),
+                )
+            ],
+          ),
+        ),
+        floatingActionButton: Stack(
+          children: [
+            Align(
+              alignment: Alignment.bottomRight,
+              child: AddButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            const AddItemPage(onSave: _onAddProduct)),
                   );
                 },
               ),
             ),
           ],
-        ),
-      ),
-      floatingActionButton: Stack(
-        children: [
-          Align(
-            alignment: Alignment.bottomRight,
-            child: AddButton(onPressed: () {}),
-          ),
-          if (_selectedProducts.isNotEmpty)
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: FloatingActionButton(
-                onPressed: _buySelectedProducts,
-                backgroundColor: Colors.transparent,
-                child: const Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.shopping_cart, color: Colors.green),
-                    Text("Comprar", style: TextStyle(color: Colors.green)),
-                  ],
-                ),
-              ),
-            ),
-        ],
-      ),
-    );
+        ));
   }
 }
 
@@ -201,4 +208,8 @@ void onProductAction(BuildContext context, Product product) {
     Provider.of<ShoppingRepository>(context, listen: false)
         .removeProduct(product);
   });
+}
+
+void _onAddProduct(BuildContext context, Product product) {
+  Provider.of<ShoppingRepository>(context, listen: false).addProduct(product);
 }
