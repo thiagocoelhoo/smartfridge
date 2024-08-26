@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfridge/models/recipe.dart';
-import 'package:smartfridge/pages/recipe_details.dart';
 import 'package:smartfridge/repository/fridge_repository.dart';
 import 'package:smartfridge/repository/recipes_repository.dart';
 import 'package:smartfridge/widgets/carousel.dart';
+import 'package:smartfridge/widgets/recipe_list_tile.dart';
 
 class RecipesPage extends StatefulWidget {
   const RecipesPage({super.key});
@@ -116,20 +116,9 @@ class _RecipesPage extends State<RecipesPage> {
       child: Card(
         child: Consumer<FridgeRepository>(
           builder: (context, fridgeRepository, child) {
-            return ListTile(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => RecipeDetailsPage(recipe)),
-                );
-              },
-              title: Text(recipe.name),
-              subtitle: Text(
-                  "${fridgeRepository.hasInTheFridge(recipe.ingredients)}/${recipe.ingredients.length} ingredients // ${recipe.duration}"),
-              trailing: const Icon(Icons.chevron_right),
-              leading:
-                  Image.asset(recipe.urlImage, width: 120, fit: BoxFit.cover),
+            return RecipeListTile(
+              recipe: recipe,
+              fridgeRepository: fridgeRepository,
             );
           },
         ),
