@@ -26,7 +26,7 @@ class RecipeListTile extends StatelessWidget {
         children: [
           Text(recipe.name),
           Text(
-            " (${recipe.duration})",
+            " (${recipe.duration.abreviation()})",
             style: const TextStyle(fontSize: 12),
           ),
         ],

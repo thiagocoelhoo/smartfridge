@@ -28,5 +28,20 @@ class DurationTime {
         return 'unidade(s)';
     }
   }
+
+  String abreviation() {
+    switch (unit) {
+      case TimeUnit.seconds:
+        return '${value} s';
+      case TimeUnit.minutes:
+        return '${value} min';
+      case TimeUnit.hours:
+        return '${value} h';
+      case TimeUnit.days:
+        return '${value} d';
+      default:
+        return '${value} u';
+    }
+  }
 }
 

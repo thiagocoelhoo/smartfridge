@@ -24,7 +24,7 @@ class ProductItem extends StatelessWidget {
     return Card(
       child: ListTile(
         title: Text(product.name),
-        subtitle: Text("Quantidade: ${product.amount}"),
+        subtitle: Text("Quantidade: ${product.amount.abreviation()}"),
         leading: onChangeCheckbox != null
             ? ValueListenableBuilder<bool>(
                 valueListenable: isSelectedNotifier,
