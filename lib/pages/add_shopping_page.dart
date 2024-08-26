@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:smartfridge/repository/shopping_repository.dart';
 import 'package:smartfridge/utils/quantity.dart';
 import 'package:smartfridge/models/product.dart';
 import 'package:provider/provider.dart';
-import 'package:smartfridge/repository/fridge_repository.dart';
-
 import 'package:smartfridge/widgets/custom_snackbar.dart';
 
-class AddItemPage extends StatefulWidget {
+class AddShoppingPage extends StatefulWidget {
   final void Function(BuildContext, Product) onSave;
 
-  const AddItemPage({super.key, required this.onSave});
+  const AddShoppingPage({super.key, required this.onSave});
 
   @override
   AddItemsFridgePageState createState() => AddItemsFridgePageState();
 }
 
-class AddItemsFridgePageState extends State<AddItemPage> {
+class AddItemsFridgePageState extends State<AddShoppingPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _quantityController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
@@ -80,9 +79,9 @@ class AddItemsFridgePageState extends State<AddItemPage> {
     final String unit = _selectedUnit;
 
     if (name.isNotEmpty && quantity > 0) {
-      final fridgeRepository =
-          Provider.of<FridgeRepository>(context, listen: false);
-      final existingProduct = fridgeRepository.products.firstWhere(
+      final shoppingRepository =
+          Provider.of<ShoppingRepository>(context, listen: false);
+      final existingProduct = shoppingRepository.products.firstWhere(
         (product) => product.name.toLowerCase() == name.toLowerCase(),
         orElse: () => Product('', Quantity(0, QuantityUnit.values.first)),
       );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smartfridge/pages/add_shopping_page.dart';
 import 'package:smartfridge/repository/fridge_repository.dart';
 import 'package:smartfridge/repository/shopping_repository.dart';
 import 'package:smartfridge/models/product.dart';
@@ -7,7 +8,6 @@ import 'package:smartfridge/widgets/add_button.dart';
 import 'package:smartfridge/widgets/product_item.dart';
 import 'package:smartfridge/widgets/show_product_modal.dart';
 import 'package:smartfridge/widgets/delete_confirmation_dialog.dart';
-import 'package:smartfridge/pages/add_item_page.dart';
 
 class ShoppingListPage extends StatefulWidget {
   const ShoppingListPage({super.key});
@@ -183,7 +183,7 @@ class _ShoppingListPage extends State<ShoppingListPage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            const AddItemPage(onSave: _onAddProduct)),
+                            const AddShoppingPage(onSave: _onAddProduct)),
                   );
                 },
               ),

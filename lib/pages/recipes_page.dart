@@ -68,8 +68,8 @@ class _RecipesPage extends State<RecipesPage> {
                     padding: EdgeInsets.symmetric(horizontal: 8.0),
                     child: Icon(Icons.filter_alt),
                   ),
-                  trailing: [
-                    const Padding(
+                  trailing: const [
+                    Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8.0),
                       child: Icon(Icons.search),
                     )

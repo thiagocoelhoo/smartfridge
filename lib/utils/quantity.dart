@@ -44,23 +44,23 @@ class Quantity {
   String abreviation() {
     switch (unit) {
       case QuantityUnit.unit:
-        return '${value} ${value > 1 ? 'unidades' : 'unidade'}';
+        return '$value ${value > 1 ? 'unidades' : 'unidade'}';
       case QuantityUnit.gram:
-        return '${value} g';
+        return '$value g';
       case QuantityUnit.kilogram:
-        return '${value} Kg';
+        return '$value Kg';
       case QuantityUnit.teaspoon:
-        return '${value} ${value > 1 ? 'colheres' : 'colher'} de chá';
+        return '$value ${value > 1 ? 'colheres' : 'colher'} de chá';
       case QuantityUnit.tablespoon:
-        return '${value} ${value > 1 ? 'colheres' : 'colher'} de sopa';
+        return '$value ${value > 1 ? 'colheres' : 'colher'} de sopa';
       case QuantityUnit.cup:
-        return '${value} ${value > 1 ? 'xícaras' : 'xícara'}';
+        return '$value ${value > 1 ? 'xícaras' : 'xícara'}';
       case QuantityUnit.milliliter:
-        return '${value} ml';
+        return '$value ml';
       case QuantityUnit.liter:
-        return '${value} L';
+        return '$value L';
       default:
-        return '${value} ${value > 1 ? 'unidades' : 'unidade'}';
+        return '$value ${value > 1 ? 'unidades' : 'unidade'}';
     }
   }
 

@@ -5,18 +5,18 @@ import 'package:smartfridge/models/product.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfridge/repository/fridge_repository.dart';
 
-import 'package:smartfridge/widgets/custom_snackbar.dart';
+import '../widgets/custom_snackbar.dart';
 
-class AddItemPage extends StatefulWidget {
+class AddFrigePage extends StatefulWidget {
   final void Function(BuildContext, Product) onSave;
 
-  const AddItemPage({super.key, required this.onSave});
+  const AddFrigePage({super.key, required this.onSave});
 
   @override
   AddItemsFridgePageState createState() => AddItemsFridgePageState();
 }
 
-class AddItemsFridgePageState extends State<AddItemPage> {
+class AddItemsFridgePageState extends State<AddFrigePage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _quantityController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();

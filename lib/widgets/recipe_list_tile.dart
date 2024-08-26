@@ -8,10 +8,10 @@ class RecipeListTile extends StatelessWidget {
   final FridgeRepository fridgeRepository;
 
   const RecipeListTile({
-    Key? key,
+    super.key,
     required this.recipe,
     required this.fridgeRepository,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

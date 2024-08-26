@@ -43,7 +43,7 @@ class ProductLine extends StatelessWidget {
                 onTrailingAction!(context, product);
               },
             )
-          : Icon(
+          : const Icon(
               Icons.check,
               color: Colors.green,
             ),

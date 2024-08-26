@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:smartfridge/pages/add_item_page.dart';
+import 'package:smartfridge/pages/add_fridge_page.dart';
 import 'package:smartfridge/repository/fridge_repository.dart';
 import 'package:smartfridge/widgets/add_button.dart';
 import 'package:smartfridge/widgets/show_product_modal.dart';
 import 'package:smartfridge/widgets/delete_confirmation_dialog.dart';
 import 'package:smartfridge/widgets/product_item.dart';
-
 import 'package:smartfridge/models/product.dart';
 
 class MyFridgePage extends StatefulWidget {
@@ -102,7 +101,8 @@ class _MyHomePageState extends State<MyFridgePage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => const AddItemPage(onSave: _onAddProduct)),
+                builder: (context) =>
+                    const AddFrigePage(onSave: _onAddProduct)),
           );
         },
       ),

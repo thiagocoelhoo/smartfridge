@@ -32,15 +32,15 @@ class DurationTime {
   String abreviation() {
     switch (unit) {
       case TimeUnit.seconds:
-        return '${value} s';
+        return '$value s';
       case TimeUnit.minutes:
-        return '${value} min';
+        return '$value min';
       case TimeUnit.hours:
-        return '${value} h';
+        return '$value h';
       case TimeUnit.days:
-        return '${value} d';
+        return '$value d';
       default:
-        return '${value} u';
+        return '$value u';
     }
   }
 }

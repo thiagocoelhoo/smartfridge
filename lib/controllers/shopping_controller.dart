@@ -1,5 +1,5 @@
 import 'package:smartfridge/models/product.dart';
-import '../utils/quantity.dart';
+import 'package:smartfridge/utils/quantity.dart';
 
 class ShoppingController {
   final List<Product> _products = [];
