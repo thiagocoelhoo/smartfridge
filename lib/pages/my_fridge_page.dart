@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:smartfridge/pages/add_items_fridge_page.dart';
 import 'package:smartfridge/repository/fridge_repository.dart';
 import 'package:smartfridge/widgets/add_button.dart';
-import 'package:smartfridge/widgets/product_list.dart';
 import 'package:smartfridge/widgets/show_product_modal.dart';
 import 'package:smartfridge/widgets/delete_confirmation_dialog.dart';
+import 'package:smartfridge/widgets/product_item.dart';
 
 import 'package:smartfridge/models/product.dart';
 
@@ -77,15 +77,18 @@ class _MyHomePageState extends State<MyFridgePage> {
                       return const Center(
                           child: Text("Nenhum produto encontrado"));
                     }
-                    return ProductList(
-                      products: _filteredProducts.isEmpty
-                          ? fridgeRepository.products
-                          : _filteredProducts,
-                      onProductTap: onProductTap,
-                      onProductAction: onProductAction,
-                      showTrailing: true,
-                      customIcon: const Icon(Icons.delete_outline_rounded),
-                      iconColor: Colors.redAccent,
+                    return ListView(
+                      children: (_filteredProducts.isEmpty
+                              ? fridgeRepository.products
+                              : _filteredProducts)
+                          .map((product) {
+                        return ProductItem(
+                          product: product,
+                          isSelectedNotifier: ValueNotifier<bool>(false),
+                          onProductTap: onProductTap,
+                          onTrailingAction: onProductAction,
+                        );
+                      }).toList(),
                     );
                   },
                 ),

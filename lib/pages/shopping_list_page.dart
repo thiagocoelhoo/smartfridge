@@ -4,8 +4,10 @@ import 'package:smartfridge/repository/fridge_repository.dart';
 import 'package:smartfridge/repository/shopping_repository.dart';
 import 'package:smartfridge/models/product.dart';
 import 'package:smartfridge/widgets/add_button.dart';
-import 'package:smartfridge/widgets/product_list.dart';
+import 'package:smartfridge/widgets/product_item.dart';
 import 'package:smartfridge/widgets/show_product_modal.dart';
+
+import 'package:smartfridge/widgets/delete_confirmation_dialog.dart';
 
 class ShoppingListPage extends StatefulWidget {
   const ShoppingListPage({super.key});
@@ -17,6 +19,8 @@ class ShoppingListPage extends StatefulWidget {
 class _ShoppingListPage extends State<ShoppingListPage> {
   final TextEditingController _searchController = TextEditingController();
   List<Product> _filteredProducts = [];
+  final List<Product> _selectedProducts = [];
+  final Map<Product, ValueNotifier<bool>> _isSelectedNotifiers = {};
 
   @override
   void initState() {
@@ -39,6 +43,63 @@ class _ShoppingListPage extends State<ShoppingListPage> {
               .where((product) => product.name.toLowerCase().contains(query))
               .toList();
     });
+  }
+
+  void _updateSelectedProducts(Product product, bool isSelected) {
+    setState(() {
+      if (isSelected) {
+        _selectedProducts.add(product);
+      } else {
+        _selectedProducts.remove(product);
+      }
+    });
+  }
+
+  void _buySelectedProducts() {
+    _showMovedItemsAlert(_selectedProducts);
+  }
+
+  void _showMovedItemsAlert(List<Product> movedProducts) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Center(
+            child: Text(movedProducts.length > 1
+                ? "Itens Comprados!"
+                : "Item Comprado!"),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: movedProducts
+                .map((product) => Text("${product.amount} de ${product.name}"))
+                .toList(),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                final fridgeRepository =
+                    Provider.of<FridgeRepository>(context, listen: false);
+                final shoppingRepository =
+                    Provider.of<ShoppingRepository>(context, listen: false);
+
+                for (var product in movedProducts) {
+                  fridgeRepository.addProduct(product);
+                  shoppingRepository.removeProduct(product);
+                }
+
+                setState(() {
+                  _selectedProducts.clear();
+                });
+
+                Navigator.pop(context);
+              },
+              child: const Text("OK"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -69,13 +130,28 @@ class _ShoppingListPage extends State<ShoppingListPage> {
                     return const Center(
                         child: Text("Nenhum produto encontrado"));
                   }
-                  return ProductList(
-                    products: _filteredProducts.isEmpty
-                        ? shoppingRepository.products
-                        : _filteredProducts,
-                    showTrailing: true,
-                    onProductTap: onProductTap,
-                    onProductAction: _showConfirmationDialog,
+                  return ListView(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
+                    children: (_filteredProducts.isEmpty
+                            ? shoppingRepository.products
+                            : _filteredProducts)
+                        .map((product) {
+                      if (!_isSelectedNotifiers.containsKey(product)) {
+                        _isSelectedNotifiers[product] =
+                            ValueNotifier<bool>(false);
+                      }
+                      return ProductItem(
+                        product: product,
+                        isSelectedNotifier: _isSelectedNotifiers[product]!,
+                        onProductTap: onProductTap,
+                        onLeadingAction: (context, product) {},
+                        onTrailingAction: onProductAction,
+                        onChangeCheckbox: (isSelected) {
+                          _updateSelectedProducts(product, isSelected);
+                        },
+                      );
+                    }).toList(),
                   );
                 },
               ),
@@ -83,7 +159,29 @@ class _ShoppingListPage extends State<ShoppingListPage> {
           ],
         ),
       ),
-      floatingActionButton: AddButton(onPressed: () {}),
+      floatingActionButton: Stack(
+        children: [
+          Align(
+            alignment: Alignment.bottomRight,
+            child: AddButton(onPressed: () {}),
+          ),
+          if (_selectedProducts.isNotEmpty)
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: FloatingActionButton(
+                onPressed: _buySelectedProducts,
+                backgroundColor: Colors.transparent,
+                child: const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.shopping_cart, color: Colors.green),
+                    Text("Comprar", style: TextStyle(color: Colors.green)),
+                  ],
+                ),
+              ),
+            ),
+        ],
+      ),
     );
   }
 }
@@ -98,31 +196,9 @@ void onProductTap(BuildContext context, Product product) {
   });
 }
 
-void _showConfirmationDialog(BuildContext context, Product product) {
-  showDialog(
-    context: context,
-    builder: (context) {
-      return Consumer2<FridgeRepository, ShoppingRepository>(
-          builder: (context, fridgeRepository, shoppingRepository, child) {
-        return AlertDialog(
-          title: const Center(
-            child: Text("Item Comprado!"),
-          ),
-          content: Text(
-              "${product.amount} de ${product.name} ${product.amount.value > 1 ? 'foram' : 'foi'} movidos para o estoque."),
-          actionsAlignment: MainAxisAlignment.center,
-          actions: [
-            TextButton(
-              onPressed: () {
-                fridgeRepository.addProduct(product);
-                shoppingRepository.removeProduct(product);
-                Navigator.pop(context);
-              },
-              child: const Text("OK"),
-            ),
-          ],
-        );
-      });
-    },
-  );
+void onProductAction(BuildContext context, Product product) {
+  DeleteConfirmationDialog(context, () {
+    Provider.of<ShoppingRepository>(context, listen: false)
+        .removeProduct(product);
+  });
 }
