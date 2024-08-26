@@ -97,23 +97,23 @@ class _RecipeDetailsPage extends State<RecipeDetailsPage> {
                   )),
             ),
             const SizedBox(height: 20),
-            MaterialButton(
-                color: Theme.of(context).colorScheme.onTertiaryFixedVariant,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                height: 60,
-                minWidth: double.infinity,
-                onPressed: () {},
-                child: Text(
-                  "Iniciar receita",
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.inverseSurface,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ))
+            // MaterialButton(
+            //     color: Theme.of(context).colorScheme.onTertiaryFixedVariant,
+            //     shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(20)),
+            //     padding:
+            //         const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+            //     height: 60,
+            //     minWidth: double.infinity,
+            //     onPressed: () {},
+            //     child: Text(
+            //       "Iniciar receita",
+            //       style: TextStyle(
+            //         color: Theme.of(context).colorScheme.inverseSurface,
+            //         fontSize: 16,
+            //         fontWeight: FontWeight.w500,
+            //       ),
+            //     ))
           ],
         ));
   }

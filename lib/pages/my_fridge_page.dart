@@ -52,10 +52,10 @@ class _MyHomePageState extends State<MyFridgePage> {
             children: <Widget>[
               SearchBar(
                 controller: _searchController,
-                leading: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Icon(Icons.filter_alt),
-                ),
+                // leading: const Padding(
+                //   padding: EdgeInsets.symmetric(horizontal: 8.0),
+                //   child: Icon(Icons.filter_alt),
+                // ),
                 trailing: const [
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8.0),
