@@ -1,65 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:smartfridge/models/product.dart';
-
-import '../utils/quantity.dart';
+import 'package:smartfridge/controllers/shopping_controller.dart';
 
 class ShoppingRepository extends ChangeNotifier {
-  final List<Product> _products = [];
+  final ShoppingController _controller = ShoppingController();
 
-  ShoppingRepository() {
-    _loadInitialProducts();
-  }
-
-  List<Product> get products => List.unmodifiable(_products);
+  List<Product> get products => _controller.products;
 
   List<Product> getProductsByName(String name) {
-    return _products.where((element) => name.contains(element.name)).toList();
+    return _controller.getProductsByName(name);
   }
 
   void addProduct(Product product) {
-    final index =
-        _products.indexWhere((element) => element.name == product.name);
-    if (index != -1) {
-      _products[index].amount.value += product.amount.value;
-    } else {
-      final clonedProduct = Product(
-          product.name, Quantity(product.amount.value, product.amount.unit));
-      _products.add(clonedProduct);
-    }
+    _controller.addProduct(product);
     notifyListeners();
   }
 
-  removeProduct(Product product) {
-    if (_products.contains(product)) {
-      _products.remove(product);
-      notifyListeners();
-    }
+  void removeProduct(Product product) {
+    _controller.removeProduct(product);
+    notifyListeners();
   }
 
   void updateProduct(Product product) {
-    final index = _products.indexWhere((element) => element.id == product.id);
-    if (index != -1) {
-      _products[index].name = product.name;
-      _products[index].amount = product.amount;
-      notifyListeners();
-    } else {
-      // TODO: Handle error
-    }
-  }
-
-  clear() {
-    _products.clear();
+    _controller.updateProduct(product);
     notifyListeners();
   }
 
-  void _loadInitialProducts() {
-    _products.addAll([
-      Product("Arroz", Quantity(1, QuantityUnit.kilogram)),
-      Product("Feijão", Quantity(3, QuantityUnit.kilogram)),
-      Product("Carne", Quantity(1.5, QuantityUnit.kilogram)),
-      Product("Macarrão", Quantity(2, QuantityUnit.kilogram)),
-      Product("Óleo", Quantity(1, QuantityUnit.liter)),
-      Product("Sal", Quantity(1, QuantityUnit.kilogram)),
-    ]);
+  void clear() {
+    _controller.clear();
+    notifyListeners();
   }
 }
