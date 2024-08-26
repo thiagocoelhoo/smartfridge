@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:smartfridge/pages/add_items_fridge_page.dart';
+import 'package:smartfridge/pages/add_item_page.dart';
 import 'package:smartfridge/repository/fridge_repository.dart';
 import 'package:smartfridge/widgets/add_button.dart';
 import 'package:smartfridge/widgets/show_product_modal.dart';
@@ -101,7 +101,8 @@ class _MyHomePageState extends State<MyFridgePage> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const AddItemsFridgePage()),
+            MaterialPageRoute(
+                builder: (context) => const AddItemPage(onSave: _onAddProduct)),
           );
         },
       ),
@@ -131,4 +132,8 @@ class _MyHomePageState extends State<MyFridgePage> {
           .removeProduct(product);
     });
   }
+}
+
+void _onAddProduct(BuildContext context, Product product) {
+  Provider.of<FridgeRepository>(context, listen: false).addProduct(product);
 }

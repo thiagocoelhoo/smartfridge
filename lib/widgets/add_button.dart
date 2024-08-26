@@ -9,12 +9,11 @@ class AddButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: FloatingActionButton.extended(
+      child: FloatingActionButton(
         backgroundColor: Theme.of(context).colorScheme.onTertiaryFixedVariant,
         foregroundColor: Colors.white,
         onPressed: onPressed,
-        icon: const Icon(Icons.add),
-        label: const Text("Add"),
+        child: const Icon(Icons.add),
       ),
     );
   }
