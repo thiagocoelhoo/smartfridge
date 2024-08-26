@@ -16,13 +16,15 @@ class ShoppingRepository extends ChangeNotifier {
     return _products.where((element) => name.contains(element.name)).toList();
   }
 
-  addProduct(Product product) {
+  void addProduct(Product product) {
     final index =
         _products.indexWhere((element) => element.name == product.name);
     if (index != -1) {
       _products[index].amount.value += product.amount.value;
     } else {
-      _products.add(product);
+      final clonedProduct = Product(
+          product.name, Quantity(product.amount.value, product.amount.unit));
+      _products.add(clonedProduct);
     }
     notifyListeners();
   }

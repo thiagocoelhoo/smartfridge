@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:smartfridge/widgets/carousel.dart';
-import '../models/recipe.dart';
+import 'package:smartfridge/widgets/product_line.dart';
+import 'package:smartfridge/models/recipe.dart';
+import 'package:smartfridge/repository/shopping_repository.dart';
+import 'package:smartfridge/models/product.dart';
+
+import '../widgets/custom_snackbar.dart';
 
 class RecipeDetailsPage extends StatefulWidget {
   final Recipe? recipe;
@@ -61,7 +67,11 @@ class _RecipeDetailsPage extends State<RecipeDetailsPage> {
                 height: 400,
                 child: Column(
                   children: widget.recipe!.ingredients.map((product) {
-                    return ListTile(title: Text("${product.amount} de ${product.name}"));
+                    return ProductLine(
+                        product: product,
+                        onTrailingAction: (context, product) {
+                          addProductToCart(context, product);
+                        });
                   }).toList(),
                 ),
               ),
@@ -80,7 +90,8 @@ class _RecipeDetailsPage extends State<RecipeDetailsPage> {
                   width: double.infinity,
                   height: 400,
                   child: Column(
-                    children: widget.recipe!.stepByStep.asMap().entries.map((entry) {
+                    children:
+                        widget.recipe!.stepByStep.asMap().entries.map((entry) {
                       int index = entry.key;
                       String step = entry.value;
                       return ListTile(title: Text("${index + 1}. $step"));
@@ -89,11 +100,11 @@ class _RecipeDetailsPage extends State<RecipeDetailsPage> {
             ),
             const SizedBox(height: 20),
             MaterialButton(
-              // a purple cor when in dark mode
                 color: Theme.of(context).colorScheme.onTertiaryFixedVariant,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)),
-                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                 height: 60,
                 minWidth: double.infinity,
                 onPressed: () {},
@@ -108,4 +119,17 @@ class _RecipeDetailsPage extends State<RecipeDetailsPage> {
           ],
         ));
   }
+}
+
+void addProductToCart(BuildContext context, Product product) {
+  final shoppingRepository =
+      Provider.of<ShoppingRepository>(context, listen: false);
+  shoppingRepository.addProduct(product);
+  customSnackBar(
+    context,
+    "${product.name} adicionado ao carrinho",
+    backgroundColor: Colors.green,
+    textColor: Colors.white,
+    duration: const Duration(seconds: 2),
+  );
 }
