@@ -4,7 +4,7 @@ import 'package:smartfridge/pages/recipes_page.dart';
 import 'package:smartfridge/pages/shopping_list_page.dart';
 
 class SmartFridgeApp extends StatelessWidget {
-  const SmartFridgeApp({super.key});
+  SmartFridgeApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final List<Widget> pages = [
-    const MyFridgePage(),
+    MyFridgePage(),
     const RecipesPage(),
     const ShoppingListPage(),
   ];

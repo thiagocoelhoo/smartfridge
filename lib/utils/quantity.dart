@@ -17,6 +17,13 @@ class Quantity {
 
   Quantity(this.value, this.unit);
 
+  bool operator >=(Quantity other) {
+    if (unit != other.unit) {
+      throw ArgumentError('Cannot compare quantities with different units');
+    }
+    return value >= other.value;
+  }
+
   @override
   String toString() {
     switch (unit) {
