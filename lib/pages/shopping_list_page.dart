@@ -84,7 +84,7 @@ class _ShoppingListPage extends State<ShoppingListPage> {
                     Provider.of<ShoppingRepository>(context, listen: false);
 
                 for (var product in movedProducts) {
-                  fridgeRepository.addProduct(product);
+                  fridgeRepository.addOrUpdateProduct(product);
                   shoppingRepository.removeProduct(product);
                 }
 

@@ -27,7 +27,6 @@ class Product {
       'name': _name,
       'amount_value': _amount.value,
       'amount_unit': _amount.unit.toString().split('.').last,
-      'valid_until': null,
     };
   }
 }

@@ -35,6 +35,22 @@ class FridgeRepository with ChangeNotifier {
     notifyListeners();
   }
 
+  void addOrUpdateProduct(Product product) {
+    final existingProduct = _products.firstWhere(
+      (p) =>
+          p.name.toLowerCase() == product.name.toLowerCase() &&
+          p.amount.unit == product.amount.unit,
+      orElse: () => Product('', Quantity(0, QuantityUnit.values.first)),
+    );
+
+    if (existingProduct.name.isNotEmpty) {
+      existingProduct.amount.value += product.amount.value;
+      updateProduct(existingProduct);
+    } else {
+      addProduct(product);
+    }
+  }
+
   Future<void> removeProduct(Product product) async {
     final db = await DB.instance.database;
     await db.delete('fridge', where: 'id = ?', whereArgs: [product.id]);

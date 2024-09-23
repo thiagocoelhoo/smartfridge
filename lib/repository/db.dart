@@ -26,20 +26,37 @@ class DB {
       path,
       version: 1,
       onCreate: _onCreate,
+      onOpen: (db) async {
+        await _createTablesIfNotExists(db);
+      },
     );
   }
 
   Future _onCreate(Database db, int version) async {
+    await _createTablesIfNotExists(db);
+  }
+
+  Future<void> _createTablesIfNotExists(Database db) async {
     await db.execute(_fridgeTable);
+    await db.execute(_shoppingListTable);
   }
 
   String get _fridgeTable => '''
-CREATE TABLE fridge (
+CREATE TABLE IF NOT EXISTS fridge (
   id TEXT PRIMARY KEY,
   name TEXT,
   amount_value REAL,
   amount_unit TEXT,
   valid_until TEXT
+);
+''';
+
+  String get _shoppingListTable => '''
+CREATE TABLE IF NOT EXISTS shopping_list (
+  id TEXT PRIMARY KEY,
+  name TEXT,
+  amount_value REAL,
+  amount_unit TEXT
 );
 ''';
 }

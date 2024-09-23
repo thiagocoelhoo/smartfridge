@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:smartfridge/repository/shopping_repository.dart';
 import 'package:smartfridge/utils/quantity.dart';
 import 'package:smartfridge/models/product.dart';
 import 'package:provider/provider.dart';
-import 'package:smartfridge/widgets/custom_snackbar.dart';
+import 'package:smartfridge/repository/shopping_repository.dart';
+
+import '../repository/fridge_repository.dart';
+import '../widgets/custom_snackbar.dart';
 
 class AddShoppingPage extends StatefulWidget {
   final void Function(BuildContext, Product) onSave;
@@ -12,13 +14,12 @@ class AddShoppingPage extends StatefulWidget {
   const AddShoppingPage({super.key, required this.onSave});
 
   @override
-  AddItemsFridgePageState createState() => AddItemsFridgePageState();
+  AddItemsShoppingPageState createState() => AddItemsShoppingPageState();
 }
 
-class AddItemsFridgePageState extends State<AddShoppingPage> {
+class AddItemsShoppingPageState extends State<AddShoppingPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _quantityController = TextEditingController();
-  final TextEditingController _dateController = TextEditingController();
   final List<String> items = Quantity.getUnits();
   String _selectedUnit = Quantity.getUnits()[0];
 
@@ -26,7 +27,6 @@ class AddItemsFridgePageState extends State<AddShoppingPage> {
   void dispose() {
     _nameController.dispose();
     _quantityController.dispose();
-    _dateController.dispose();
     super.dispose();
   }
 
@@ -51,8 +51,6 @@ class AddItemsFridgePageState extends State<AddShoppingPage> {
                 Expanded(child: _buildDropdownField("Unidade(s)", items)),
               ],
             ),
-            const SizedBox(height: 16),
-            _buildDateField(context),
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
@@ -89,7 +87,7 @@ class AddItemsFridgePageState extends State<AddShoppingPage> {
       if (existingProduct.name.isNotEmpty) {
         customSnackBar(
           context,
-          "Produto com o mesmo nome já existe",
+          "Produto com o mesmo nome já existe na lista de compras",
           backgroundColor: Colors.redAccent,
           textColor: Colors.white,
           duration: const Duration(seconds: 2),
@@ -104,7 +102,7 @@ class AddItemsFridgePageState extends State<AddShoppingPage> {
         widget.onSave(context, product);
         customSnackBar(
           context,
-          "Produto salvo com sucesso",
+          "Produto salvo com sucesso na lista de compras",
           backgroundColor: Colors.green,
           textColor: Colors.white,
           duration: const Duration(seconds: 2),
@@ -114,14 +112,13 @@ class AddItemsFridgePageState extends State<AddShoppingPage> {
     } else {
       customSnackBar(
         context,
-        "Preencha os campos os campos corretamente",
+        "Preencha os campos corretamente",
         backgroundColor: Colors.red,
         textColor: Colors.white,
         duration: const Duration(seconds: 2),
       );
     }
   }
-
   Widget _buildTextField(String label, String hintText,
       {bool digitsOnly = false, required TextEditingController controller}) {
     return TextField(
@@ -166,39 +163,5 @@ class AddItemsFridgePageState extends State<AddShoppingPage> {
         });
       },
     );
-  }
-
-  Widget _buildDateField(BuildContext context) {
-    return TextField(
-      controller: _dateController,
-      readOnly: true,
-      decoration: InputDecoration(
-        labelText: "Data de validade",
-        hintText: "MM/DD/YYYY",
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        suffixIcon: IconButton(
-          icon: const Icon(Icons.calendar_today),
-          onPressed: () async {
-            DateTime? selectedDate = await showDatePicker(
-              context: context,
-              initialDate: DateTime.now(),
-              firstDate: DateTime(2000),
-              lastDate: DateTime(2101),
-            );
-            if (selectedDate != null) {
-              setState(() {
-                _dateController.text = _formatDate(selectedDate);
-              });
-            }
-          },
-        ),
-      ),
-    );
-  }
-
-  String _formatDate(DateTime date) {
-    return '${date.month.toString().padLeft(2, '0')}/${date.day.toString().padLeft(2, '0')}/${date.year}';
   }
 }
