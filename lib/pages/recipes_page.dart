@@ -22,6 +22,7 @@ class _RecipesPage extends State<RecipesPage> {
   void initState() {
     super.initState();
     _searchController.addListener(_filterRecipes);
+    _fetchRecipes();
   }
 
   @override
@@ -38,6 +39,11 @@ class _RecipesPage extends State<RecipesPage> {
           .where((recipe) => recipe.name.toLowerCase().contains(query))
           .toList();
     });
+  }
+
+  Future<void> _fetchRecipes() async {
+    await Provider.of<RecipesRepository>(context, listen: false).fetchRecipes();
+    _filterRecipes();
   }
 
   @override
