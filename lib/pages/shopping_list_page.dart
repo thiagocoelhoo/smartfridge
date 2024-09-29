@@ -8,6 +8,7 @@ import 'package:smartfridge/widgets/add_button.dart';
 import 'package:smartfridge/widgets/product_item.dart';
 import 'package:smartfridge/widgets/show_product_modal.dart';
 import 'package:smartfridge/widgets/delete_confirmation_dialog.dart';
+import 'package:smartfridge/widgets/search_bar.dart' as custom;
 
 class ShoppingListPage extends StatefulWidget {
   const ShoppingListPage({super.key});
@@ -84,7 +85,7 @@ class _ShoppingListPage extends State<ShoppingListPage> {
                     Provider.of<ShoppingRepository>(context, listen: false);
 
                 for (var product in movedProducts) {
-                  fridgeRepository.addProduct(product);
+                  fridgeRepository.addOrUpdateProduct(product);
                   shoppingRepository.removeProduct(product);
                 }
 
@@ -114,7 +115,7 @@ class _ShoppingListPage extends State<ShoppingListPage> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: <Widget>[
-              SearchBar(
+              custom.SearchBar(
                 controller: _searchController,
                 // leading: const Padding(
                 //   padding: EdgeInsets.symmetric(horizontal: 8.0),

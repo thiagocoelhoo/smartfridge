@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:smartfridge/pages/my_fridge_page.dart';
+import 'package:smartfridge/pages/supermarkets_page.dart';
 import 'package:smartfridge/pages/recipes_page.dart';
 import 'package:smartfridge/pages/shopping_list_page.dart';
 
 class SmartFridgeApp extends StatelessWidget {
-  const SmartFridgeApp({super.key});
+  SmartFridgeApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +38,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final List<Widget> pages = [
-    const MyFridgePage(),
+    MyFridgePage(),
     const RecipesPage(),
     const ShoppingListPage(),
+    NearbySupermarketsPage(),
   ];
 
   int currentPageIndex = 1;
@@ -66,8 +68,8 @@ class _HomePageState extends State<HomePage> {
           ),
           NavigationDestination(
               icon: Icon(Icons.shopping_cart),
-              label: "Shopping list"
-          )
+              label: "Shopping list"),
+          NavigationDestination(icon: Icon(Icons.store), label: "Supermarket"),
         ],
       ),
     );

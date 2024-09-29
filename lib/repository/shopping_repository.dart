@@ -1,67 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:smartfridge/models/product.dart';
-import 'package:smartfridge/utils/quantity.dart';
+import 'package:smartfridge/repository/db.dart';
+import '../utils/quantity.dart';
 
-class ShoppingRepository extends ChangeNotifier {
-  final List<Product> _products = [];
+class ShoppingRepository with ChangeNotifier {
+  List<Product> _shoppingList = [];
 
-  ShoppingRepository() {
-    _loadInitialProducts();
+  List<Product> get shoppingList => _shoppingList;
+
+  Future<void> loadShoppingList() async {
+    final db = await DB.instance.database;
+    final List<Map<String, dynamic>> maps = await db.query('shopping_list');
+
+    _shoppingList = List.generate(maps.length, (i) {
+      return Product(
+        maps[i]['name'],
+        Quantity(
+          maps[i]['amount_value'],
+          QuantityUnit.values.firstWhere(
+              (e) => e.toString() == 'QuantityUnit.${maps[i]['amount_unit']}'),
+        ),
+        id: maps[i]['id'],
+      );
+    });
+
+    notifyListeners();
   }
 
-  List<Product> get products => List.unmodifiable(_products);
-
-  List<Product> getProductsByName(String name) {
-    return _products
-        .where((element) =>
-            element.name.toLowerCase().contains(name.toLowerCase()))
-        .toList();
+  Future<void> addProduct(Product product) async {
+    final db = await DB.instance.database;
+    await db.insert('shopping_list', product.toMap());
+    _shoppingList.add(product);
+    notifyListeners();
   }
 
-  void addProduct(Product product) {
-    final index = _products.indexWhere(
-        (element) => element.name.toLowerCase() == product.name.toLowerCase());
+  Future<void> removeProduct(Product product) async {
+    final db = await DB.instance.database;
+    await db.delete('shopping_list', where: 'id = ?', whereArgs: [product.id]);
+    _shoppingList.remove(product);
+    notifyListeners();
+  }
+
+  Future<void> updateProduct(Product product) async {
+    final db = await DB.instance.database;
+    await db.update('shopping_list', product.toMap(),
+        where: 'id = ?', whereArgs: [product.id]);
+    final index = _shoppingList.indexWhere((p) => p.id == product.id);
     if (index != -1) {
-      _products[index].amount.value += product.amount.value;
-    } else {
-      final clonedProduct = Product(
-          product.name, Quantity(product.amount.value, product.amount.unit));
-      _products.add(clonedProduct);
+      _shoppingList[index] = product;
+      notifyListeners();
     }
-    notifyListeners();
   }
 
-  void removeProduct(Product product) {
-    if (_products.contains(product)) {
-      _products.remove(product);
-    }
-    notifyListeners();
-  }
-
-  void updateProduct(Product product) {
-    final index = _products.indexWhere((element) => element.id == product.id);
-    final nameExists = _products.any((element) =>
-        element.name.toLowerCase() == product.name.toLowerCase() &&
-        element.id != product.id);
-    if (index != -1 && !nameExists) {
-      _products[index] = product;
-    }
-    notifyListeners();
-  }
-
-  void clear() {
-    _products.clear();
-    notifyListeners();
-  }
-
-  void _loadInitialProducts() {
-    _products.addAll([
-      Product("Arroz", Quantity(1, QuantityUnit.kilogram)),
-      Product("Feijão", Quantity(3, QuantityUnit.kilogram)),
-      Product("Carne", Quantity(1.5, QuantityUnit.kilogram)),
-      Product("Macarrão", Quantity(2, QuantityUnit.kilogram)),
-      Product("Óleo", Quantity(1, QuantityUnit.liter)),
-      Product("Sal", Quantity(1, QuantityUnit.kilogram)),
-    ]);
-  }
+  List<Product> get products => _shoppingList;
 }

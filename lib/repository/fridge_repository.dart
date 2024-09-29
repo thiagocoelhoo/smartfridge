@@ -1,86 +1,94 @@
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:smartfridge/models/product.dart';
-import 'package:smartfridge/utils/quantity.dart';
+import 'package:smartfridge/repository/db.dart';
+import '../utils/quantity.dart';
 
-class FridgeRepository extends ChangeNotifier {
-  final List<Product> _products = [];
+class FridgeRepository with ChangeNotifier {
+  List<Product> _products = [];
 
-  FridgeRepository() {
-    _loadInitialProducts();
+  List<Product> get products => _products;
+
+  Future<void> loadProducts() async {
+    final db = await DB.instance.database;
+    final List<Map<String, dynamic>> maps = await db.query('fridge');
+
+    _products = List.generate(maps.length, (i) {
+      return Product(
+        maps[i]['name'],
+        Quantity(
+          maps[i]['amount_value'],
+          QuantityUnit.values.firstWhere(
+              (e) => e.toString() == 'QuantityUnit.${maps[i]['amount_unit']}'),
+        ),
+        id: maps[i]['id'],
+      );
+    });
+
+    notifyListeners();
   }
 
-  List<Product> get products => List.unmodifiable(_products);
-
-  List<Product> getProductsByName(String name) {
-    return _products
-        .where((element) =>
-            element.name.toLowerCase().contains(name.toLowerCase()))
-        .toList();
+  Future<void> addProduct(Product product) async {
+    final db = await DB.instance.database;
+    await db.insert('fridge', product.toMap());
+    _products.add(product);
+    notifyListeners();
   }
 
-  void addProduct(Product product) {
-    final index = _products.indexWhere(
-        (element) => element.name.toLowerCase() == product.name.toLowerCase());
-    if (index != -1) {
-      _products[index].amount.add(product.amount);
+  void addOrUpdateProduct(Product product) {
+    final existingProduct = _products.firstWhere(
+      (p) =>
+          p.name.toLowerCase() == product.name.toLowerCase() &&
+          p.amount.unit == product.amount.unit,
+      orElse: () => Product('', Quantity(0, QuantityUnit.values.first)),
+    );
+
+    if (existingProduct.name.isNotEmpty) {
+      existingProduct.amount.value += product.amount.value;
+      updateProduct(existingProduct);
     } else {
-      _products.add(product);
+      addProduct(product);
     }
+  }
+
+  Future<void> removeProduct(Product product) async {
+    final db = await DB.instance.database;
+    await db.delete('fridge', where: 'id = ?', whereArgs: [product.id]);
+    _products.remove(product);
     notifyListeners();
   }
 
-  void removeProduct(Product product) {
-    if (_products.contains(product)) {
-      _products.remove(product);
-    }
-    notifyListeners();
-  }
-
-  void updateProduct(Product product) {
-    final index = _products.indexWhere((element) => element.id == product.id);
-    final nameExists = _products.any((element) =>
-        element.name.toLowerCase() == product.name.toLowerCase() &&
-        element.id != product.id);
-    if (index != -1 && !nameExists) {
+  Future<void> updateProduct(Product product) async {
+    final db = await DB.instance.database;
+    await db.update('fridge', product.toMap(),
+        where: 'id = ?', whereArgs: [product.id]);
+    final index = _products.indexWhere((p) => p.id == product.id);
+    if (index != -1) {
       _products[index] = product;
+      notifyListeners();
     }
-    notifyListeners();
+  }
+
+  bool hasInTheFridge(List<Product> ingredients) {
+    for (var ingredient in ingredients) {
+      if (!_products.contains(ingredient)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   bool containsEnough(Product product) {
-    final index =
-        _products.indexWhere((element) => element.name == product.name);
-    if (index == -1) {
-      return false;
+    final index = _products.indexWhere((p) => p.id == product.id);
+    if (index != -1) {
+      return _products[index].amount.value >= product.amount.value;
     }
-    return _products[index].amount.value >= product.amount.value;
+    return false;
   }
 
-  int hasInTheFridge(List<Product> products) {
-    int count = 0;
-    for (final product in products) {
-      if (containsEnough(product)) {
-        count++;
-      }
-    }
-    return count;
-  }
-
-  void clear() {
-    _products.clear();
-    notifyListeners();
-  }
-
-  void _loadInitialProducts() {
-    _products.addAll([
-      Product("Pão", Quantity(10, QuantityUnit.unit)),
-      Product("Carne", Quantity(1, QuantityUnit.kilogram)),
-      Product("Café", Quantity(200, QuantityUnit.milliliter)),
-      Product("Arroz", Quantity(2, QuantityUnit.kilogram)),
-      Product("Macarrão", Quantity(500, QuantityUnit.gram)),
-      Product("Massa de lasanha", Quantity(500, QuantityUnit.gram)),
-      Product("Presunto", Quantity(500, QuantityUnit.gram)),
-      Product("Queijo ralado", Quantity(500, QuantityUnit.gram)),
-    ]);
+  List<Product> getProductsByName(String name) {
+    return _products
+        .where((p) => p.name.toLowerCase().contains(name.toLowerCase()))
+        .toList();
   }
 }
