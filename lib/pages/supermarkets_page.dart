@@ -14,7 +14,7 @@ class _NearbySupermarketsPageState extends State<NearbySupermarketsPage> {
   Position? _currentPosition;
   String _currentAddress = 'Buscando localização...';
   final List<Marker> _markers = [];
-  final String _apiUrl = 'http://10.0.0.104:5000/supermarkets';
+  final String _apiUrl = 'http://10.0.0.104:8000/supermarkets';
 
   @override
   void initState() {

@@ -24,7 +24,7 @@ class RecipeListTile extends StatelessWidget {
       },
       title: Text(recipe.name, overflow: TextOverflow.ellipsis),
       subtitle: Text(
-          "${fridgeRepository.hasInTheFridge(recipe.ingredients)}/${recipe.ingredients.length} ingredientes | ${recipe.duration.abreviation()}",
+          "${fridgeRepository.hasInTheFridge(recipe.ingredients)}/${recipe.ingredients.length} ingredientes",
           overflow: TextOverflow.ellipsis),
       trailing: const Icon(Icons.chevron_right),
       leading: Image.asset(recipe.urlImage, width: 120, fit: BoxFit.cover),

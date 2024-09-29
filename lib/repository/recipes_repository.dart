@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smartfridge/models/recipe.dart';
 import 'package:smartfridge/models/product.dart';
-import 'package:smartfridge/utils/duration_time.dart';
 import 'package:smartfridge/utils/quantity.dart';
 
 class RecipesRepository extends ChangeNotifier {
@@ -57,7 +56,8 @@ class RecipesRepository extends ChangeNotifier {
             "Em um refratário, coloque uma camada de massa, uma de molho, uma de presunto, uma de queijo, e repita as camadas até acabar os ingredientes",
             "Finalize com queijo ralado e leve ao forno por 20 minutos"
           ],
-          DurationTime(1, TimeUnit.hours)),
+        Duration(hours: 1),
+      ),
       Recipe(
           "Macarronada",
           "assets/images/macarronada.jpg",
@@ -75,7 +75,8 @@ class RecipesRepository extends ChangeNotifier {
             "Desligue o fogo e acrescente o creme de leite e o molho de tomate.",
             "Misture bem e reserve.",
           ],
-          DurationTime(30, TimeUnit.minutes)),
+        Duration(minutes: 30),
+      ),
       Recipe(
           "Bolo de Maçã",
           "assets/images/bolo_de_maca.jpg",
@@ -90,7 +91,8 @@ class RecipesRepository extends ChangeNotifier {
             "Despeje a mistura do liquidificador na tigela e misture bem.",
             "Coloque em uma forma untada e leve ao forno por 40 minutos."
           ],
-          DurationTime(40, TimeUnit.minutes)),
+        Duration(minutes: 40),
+      ),
       Recipe(
           "Bife acebolado",
           "assets/images/bife acebolado.jpg",
@@ -107,7 +109,8 @@ class RecipesRepository extends ChangeNotifier {
             "Adicione a cebola e deixe dourar.",
             "Sirva quente."
           ],
-          DurationTime(30, TimeUnit.minutes)),
+        Duration(minutes: 30),
+      ),
       Recipe(
           "Pão de queijo",
           "assets/images/pao de queijo.jpg",
@@ -124,7 +127,8 @@ class RecipesRepository extends ChangeNotifier {
             "Adicione os ovos e misture bem.",
             "Coloque em forminhas e leve ao forno por 30 minutos."
           ],
-          DurationTime(30, TimeUnit.minutes))
+        Duration(minutes: 30),
+      )
     ]);
   }
 }

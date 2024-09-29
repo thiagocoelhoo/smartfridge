@@ -1,4 +1,3 @@
-import 'package:smartfridge/utils/duration_time.dart';
 import './product.dart';
 
 class Recipe {
@@ -6,7 +5,7 @@ class Recipe {
   final String urlImage;
   final List<Product> ingredients;
   final List<String> stepByStep;
-  final DurationTime duration;
+  final Duration duration;
 
   Recipe(this.name, this.urlImage, this.ingredients, this.stepByStep, this.duration);
 }
