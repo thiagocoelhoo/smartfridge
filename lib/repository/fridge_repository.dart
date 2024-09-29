@@ -69,21 +69,24 @@ class FridgeRepository with ChangeNotifier {
     }
   }
 
-  bool hasInTheFridge(List<Product> ingredients) {
-    for (var ingredient in ingredients) {
-      if (!_products.contains(ingredient)) {
-        return false;
-      }
-    }
-    return true;
-  }
-
   bool containsEnough(Product product) {
-    final index = _products.indexWhere((p) => p.id == product.id);
+    final index = _products.indexWhere((p) =>
+        p.name.toLowerCase() == product.name.toLowerCase() &&
+        p.amount.unit == product.amount.unit);
     if (index != -1) {
       return _products[index].amount.value >= product.amount.value;
     }
     return false;
+  }
+
+  int hasInTheFridge(List<Product> ingredients) {
+    int count = 0;
+    for (var ingredient in ingredients) {
+      if (containsEnough(ingredient)) {
+        count++;
+      }
+    }
+    return count;
   }
 
   List<Product> getProductsByName(String name) {
