@@ -5,6 +5,8 @@ import 'package:smartfridge/repository/db.dart';
 import 'package:smartfridge/repository/fridge_repository.dart';
 import 'package:smartfridge/repository/recipes_repository.dart';
 import 'package:smartfridge/repository/shopping_repository.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,6 +15,10 @@ void main() async {
   await fridgeRepository.loadProducts();
   final shoppingRepository = ShoppingRepository();
   await shoppingRepository.loadShoppingList();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   runApp(
     MultiProvider(

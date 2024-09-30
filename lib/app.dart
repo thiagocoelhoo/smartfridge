@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartfridge/pages/auth_page.dart';
 import 'package:smartfridge/pages/my_fridge_page.dart';
 import 'package:smartfridge/pages/supermarkets_page.dart';
 import 'package:smartfridge/pages/recipes_page.dart';
@@ -42,6 +43,7 @@ class _HomePageState extends State<HomePage> {
     const RecipesPage(),
     const ShoppingListPage(),
     NearbySupermarketsPage(),
+    AuthPage(),
   ];
 
   int currentPageIndex = 1;
@@ -70,6 +72,7 @@ class _HomePageState extends State<HomePage> {
               icon: Icon(Icons.shopping_cart),
               label: "Shopping list"),
           NavigationDestination(icon: Icon(Icons.store), label: "Supermarket"),
+          NavigationDestination(icon: Icon(Icons.person), label: "Profile"),
         ],
       ),
     );

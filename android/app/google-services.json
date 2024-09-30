@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "693062163687",
+    "project_id": "smartfridge-application",
+    "storage_bucket": "smartfridge-application.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:693062163687:android:0539047359d835164ed642",
+        "android_client_info": {
+          "package_name": "com.prosystems.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNKZiZ3gSy-0Qjz_0_515xDP1LFFLrDIM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

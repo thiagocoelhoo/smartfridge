@@ -1,0 +1,21 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "smartfridge-application",
+          "appId": "1:693062163687:android:0539047359d835164ed642",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "smartfridge-application",
+          "configurations": {
+            "android": "1:693062163687:android:0539047359d835164ed642"
+          }
+        }
+      }
+    }
+  }
+}
