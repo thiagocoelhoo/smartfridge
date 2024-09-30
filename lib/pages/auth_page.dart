@@ -10,20 +10,44 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPage extends State<AuthPage> {
-  // Simples tela de autenticação via google
   @override
   Widget build(BuildContext context) {
+    final user = GoogleAuthController().currentUser;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Smart Fridge'),
       ),
       body: Center(
-        child: ElevatedButton(
-          onPressed: () async {
+        child: user == null
+            ? ElevatedButton(
+                onPressed: () async {
             await GoogleAuthController().signInWithGoogle();
-          },
+                  setState(() {});
+                },
           child: Text('Login com Google'),
-        ),
+              )
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    backgroundImage: NetworkImage(user.photoURL ?? ''),
+                    radius: 40,
+                  ),
+                  SizedBox(height: 16),
+                  Text('Bem-vindo, ${user.displayName}'),
+                  SizedBox(height: 8),
+                  Text(user.email ?? ''),
+                  SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () async {
+                      await GoogleAuthController().signOut();
+                      setState(() {});
+                    },
+                    child: Text('Logout'),
+                  ),
+                ],
+              ),
       ),
     );
   }
