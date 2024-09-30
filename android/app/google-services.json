@@ -12,7 +12,20 @@
           "package_name": "com.prosystems.app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "693062163687-t5ifd8vqfq424u1utjgk3ss1q1t6tvcm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.prosystems.app",
+            "certificate_hash": "b156ddba945ad6504a219d97cd09699c918ace7c"
+          }
+        },
+        {
+          "client_id": "693062163687-ucvjjuhn7aj357o32ll3f3a8g3h1du51.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCNKZiZ3gSy-0Qjz_0_515xDP1LFFLrDIM"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "693062163687-ucvjjuhn7aj357o32ll3f3a8g3h1du51.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
