@@ -89,9 +89,14 @@ class _RecipesPage extends State<RecipesPage> {
                     ),
                   ],
                   const SizedBox(height: 22),
-                  ...(_filteredRecipes.isEmpty &&
-                          _searchController.text.isNotEmpty
-                      ? [const Text("Nenhuma receita Encontrada")]
+                  ...(recipeRepository.recipes.isEmpty ||
+                          _filteredRecipes.isEmpty &&
+                              _searchController.text.isNotEmpty
+                      ? [
+                          const Center(
+                            child: Text("Nenhuma receita Encontrada"),
+                          )
+                        ]
                       : (_filteredRecipes.isEmpty
                           ? recipeRepository.recipes.map((recipe) {
                               return _recipeCard(recipe);

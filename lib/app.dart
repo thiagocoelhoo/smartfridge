@@ -39,14 +39,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final List<Widget> pages = [
-    MyFridgePage(),
     const RecipesPage(),
     const ShoppingListPage(),
+    MyFridgePage(),
     NearbySupermarketsPage(),
     AuthPage(),
   ];
 
-  int currentPageIndex = 1;
+  int currentPageIndex = 2;
 
   @override
   Widget build(BuildContext context) {
@@ -61,17 +61,13 @@ class _HomePageState extends State<HomePage> {
         selectedIndex: currentPageIndex,
         destinations: const <NavigationDestination>[
           NavigationDestination(
-              icon: Icon(Icons.home_filled),
-              label: "Fridge"
-          ),
-          NavigationDestination(
               icon: Icon(Icons.library_books),
               label: "Recipes"
           ),
           NavigationDestination(
-              icon: Icon(Icons.shopping_cart),
-              label: "Shopping list"),
-          NavigationDestination(icon: Icon(Icons.store), label: "Supermarket"),
+              icon: Icon(Icons.shopping_cart), label: "Shopping"),
+          NavigationDestination(icon: Icon(Icons.home_filled), label: "Fridge"),
+          NavigationDestination(icon: Icon(Icons.store), label: "Markets"),
           NavigationDestination(icon: Icon(Icons.person), label: "Profile"),
         ],
       ),

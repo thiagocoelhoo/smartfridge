@@ -69,8 +69,7 @@ class _MyFridgePageState extends State<MyFridgePage> {
                         .map<Widget>((product) {
                       return ListTile(
                         title: Text(product.name),
-                        subtitle: Text(
-                            '${product.amount.value} ${product.amount.unit}'),
+                        subtitle: Text('${product.amount}'),
                         trailing: IconButton(
                           icon: Icon(Icons.delete),
                           onPressed: () {

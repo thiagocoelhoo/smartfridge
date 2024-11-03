@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartfridge/controllers/google_auth_controller.dart';
+import 'package:smartfridge/controllers/google_drive_controller.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -22,10 +23,10 @@ class _AuthPage extends State<AuthPage> {
         child: user == null
             ? ElevatedButton(
                 onPressed: () async {
-            await GoogleAuthController().signInWithGoogle();
+                  await GoogleAuthController().signInWithGoogle();
                   setState(() {});
                 },
-          child: Text('Login com Google'),
+                child: Text('Login com Google'),
               )
             : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -45,6 +46,13 @@ class _AuthPage extends State<AuthPage> {
                       setState(() {});
                     },
                     child: Text('Logout'),
+                  ),
+                  SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () async {
+                      await GoogleDriveController().uploadDatabaseToDrive();
+                    },
+                    child: Text('Upload Database to Drive'),
                   ),
                 ],
               ),
