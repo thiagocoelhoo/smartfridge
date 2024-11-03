@@ -3,7 +3,7 @@ import 'package:smartfridge/models/recipe.dart';
 import 'package:smartfridge/pages/recipe_details.dart';
 import 'package:smartfridge/repository/fridge_repository.dart';
 
-class RecipeListTile extends StatelessWidget {
+class RecipeListTile extends StatefulWidget {
   final Recipe recipe;
   final FridgeRepository fridgeRepository;
 
@@ -14,20 +14,38 @@ class RecipeListTile extends StatelessWidget {
   });
 
   @override
+  _RecipeListTileState createState() => _RecipeListTileState();
+}
+
+class _RecipeListTileState extends State<RecipeListTile> {
+  bool isFavorite = false;
+
+  void _toggleFavorite() {
+    setState(() {
+      isFavorite = !isFavorite;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => RecipeDetailsPage(recipe)),
+          MaterialPageRoute(
+              builder: (context) => RecipeDetailsPage(widget.recipe)),
         );
       },
-      title: Text(recipe.name, overflow: TextOverflow.ellipsis),
+      title: Text(widget.recipe.name, overflow: TextOverflow.ellipsis),
       subtitle: Text(
-          "${fridgeRepository.hasInTheFridge(recipe.ingredients)}/${recipe.ingredients.length} ingredientes",
+          "${widget.fridgeRepository.hasInTheFridge(widget.recipe.ingredients)}/${widget.recipe.ingredients.length} ingredientes",
           overflow: TextOverflow.ellipsis),
-      trailing: const Icon(Icons.chevron_right),
-      leading: Image.asset(recipe.urlImage, width: 120, fit: BoxFit.cover),
+      trailing: IconButton(
+        icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
+        onPressed: _toggleFavorite,
+      ),
+      leading:
+          Image.asset(widget.recipe.urlImage, width: 120, fit: BoxFit.cover),
     );
   }
 }
